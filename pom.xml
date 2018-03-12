@@ -79,5 +79,6 @@
 	<modules>
 		<module>wechat-application</module>
 		<module>one-night-wolf</module>
+		<module>wechat-boardgame-common</module>
 	</modules>
 </project>
