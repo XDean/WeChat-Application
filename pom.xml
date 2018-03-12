@@ -5,7 +5,7 @@
 	<groupId>com.github.XDean</groupId>
 	<artifactId>wechat-boardgame</artifactId>
 	<version>1.0</version>
-	<packaging>jar</packaging>
+	<packaging>pom</packaging>
 	<url>https://github.com/XDean/wechat-boardgame</url>
   <name>XDean board game toolkit</name>
 	<description>Wechat public account - XDean board game toolkit</description>
@@ -16,6 +16,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 	</properties>
+	
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
@@ -75,4 +76,8 @@
 			</plugin>
 		</plugins>
 	</build>
+	<modules>
+		<module>wechat-application</module>
+		<module>one-night-wolf</module>
+	</modules>
 </project>
