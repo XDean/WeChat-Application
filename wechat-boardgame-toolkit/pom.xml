@@ -2,8 +2,8 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>com.github.XDean</groupId>
-    <artifactId>wechat-boardgame</artifactId>
+    <artifactId>wechat-app</artifactId>
     <version>1.0</version>
   </parent>
-  <artifactId>wechat-application</artifactId>
+  <artifactId>wechat-boardgame-toolkit</artifactId>
 </project>

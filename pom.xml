@@ -3,12 +3,12 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.XDean</groupId>
-	<artifactId>wechat-boardgame</artifactId>
+	<artifactId>wechat-app</artifactId>
 	<version>1.0</version>
 	<packaging>pom</packaging>
-	<url>https://github.com/XDean/wechat-boardgame</url>
-  <name>XDean board game toolkit</name>
-	<description>Wechat public account - XDean board game toolkit</description>
+	<url>https://github.com/XDean/wechat-app</url>
+	<name>XDean's wechat app</name>
+	<description>Wechat APP</description>
 
 	<properties>
 		<maven.compiler.source>1.8</maven.compiler.source>
@@ -17,7 +17,18 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 	</properties>
 	
+	<modules>
+		<module>wechat-common</module>
+		<module>wechat-app-toolkit</module>
+	</modules>
+
 	<dependencies>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.16.20</version>
+			<scope>provided</scope>
+		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
@@ -37,7 +48,7 @@
 
 	<issueManagement>
 		<system>Github Issue</system>
-		<url>https://github.com/XDean/wechat-boardgame/issues</url>
+		<url>https://github.com/XDean/wechat-app/issues</url>
 	</issueManagement>
 
 	<licenses>
@@ -48,37 +59,37 @@
 	</licenses>
 
 	<scm>
-		<connection>scm:git@github.com:XDean/wechat-boardgame.git</connection>
-		<developerConnection>scm:git@github.com:XDean/wechat-boardgame.git</developerConnection>
-		<url>git@github.com:XDean/wechat-boardgame.git</url>
+		<connection>scm:git@github.com:XDean/wechat-app.git</connection>
+		<developerConnection>scm:git@github.com:XDean/wechat-app.git</developerConnection>
+		<url>git@github.com:XDean/wechat-app.git</url>
 	</scm>
 
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.jacoco</groupId>
-				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>0.8.0</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>prepare-agent</goal>
-						</goals>
-					</execution>
-					<execution>
-						<id>report</id>
-						<phase>test</phase>
-						<goals>
-							<goal>report</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
-	</build>
-	<modules>
-		<module>wechat-application</module>
-		<module>one-night-wolf</module>
-		<module>wechat-boardgame-common</module>
-	</modules>
+	<profiles>
+		<profile>
+			<id>coverage</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.jacoco</groupId>
+						<artifactId>jacoco-maven-plugin</artifactId>
+						<version>0.8.0</version>
+						<executions>
+							<execution>
+								<goals>
+									<goal>prepare-agent</goal>
+								</goals>
+							</execution>
+							<execution>
+								<id>report</id>
+								<phase>test</phase>
+								<goals>
+									<goal>report</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 </project>
