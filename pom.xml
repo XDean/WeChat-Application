@@ -25,7 +25,7 @@
 	
 	<modules>
 		<module>wechat-common</module>
-		<module>wechat-app-toolkit</module>
+		<module>wechat-boardgame-toolkit</module>
 	</modules>
 
 	<dependencies>
