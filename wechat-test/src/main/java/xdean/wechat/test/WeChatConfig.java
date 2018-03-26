@@ -7,18 +7,18 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
-import xdean.wechat.common.WeChatVars;
+import xdean.wechat.common.model.WeChatSetting;
 
 @Configuration
 @PropertySource("classpath:wechat.properties")
 public class WeChatConfig {
   @Bean
   @Singleton
-  public WeChatVars vars(
+  public WeChatSetting vars(
       @Value("${wechat.token}") String token,
       @Value("${wechat.appId}") String appId,
       @Value("${wechat.appSecret}") String appSecret) {
-    return WeChatVars.builder()
+    return WeChatSetting.builder()
         .token(token)
         .appId(appId)
         .appSecret(appSecret)

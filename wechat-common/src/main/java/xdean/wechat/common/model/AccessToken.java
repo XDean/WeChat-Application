@@ -4,9 +4,10 @@ import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonSetter;
 
 import lombok.Getter;
-import xdean.wechat.common.WeChatError;
+import lombok.ToString;
 
 @Getter
+@ToString(callSuper = true)
 public class AccessToken extends WeChatError {
   @JsonAlias("access_token")
   private String token;

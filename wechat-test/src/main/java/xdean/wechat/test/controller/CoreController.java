@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import io.reactivex.schedulers.Schedulers;
 import xdean.jex.log.Logable;
 import xdean.wechat.common.WeChatUtil;
-import xdean.wechat.common.WeChatVars;
+import xdean.wechat.common.model.WeChatSetting;
 
 @RestController
 public class CoreController implements Logable {
@@ -21,7 +21,7 @@ public class CoreController implements Logable {
   private ApplicationContext applicationContext;
 
   @Autowired
-  private WeChatVars wcv;
+  private WeChatSetting wcv;
 
   @GetMapping("wechat")
   public String checkSignature(@RequestParam String signature, @RequestParam String nonce,
