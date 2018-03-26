@@ -4,14 +4,10 @@ import static xdean.jex.util.function.Predicates.isEquals;
 
 import java.io.ByteArrayInputStream;
 
-import org.springframework.web.client.RestTemplate;
-
 import io.reactivex.Observable;
 import xdean.jex.log.Log;
 import xdean.jex.log.LogFactory;
 import xdean.jex.util.security.SecurityUtil;
-import xdean.wechat.common.model.AccessToken;
-import xdean.wechat.common.model.WeChatSetting;
 
 public class WeChatUtil implements WeChatConstants {
 
@@ -26,12 +22,5 @@ public class WeChatUtil implements WeChatConstants {
         .map(s -> SecurityUtil.digest(new ByteArrayInputStream(s.getBytes()), "SHA-1"))
         .map(isEquals(signature)::test)
         .blockingGet(false);
-  }
-
-  public static AccessToken getToken(WeChatSetting wcv) {
-    String url = WECHAT_URL + "/cgi-bin/token?grant_type=client_credential&appid="
-        + wcv.appId + "&secret=" + wcv.appSecret;
-    RestTemplate rt = new RestTemplate();
-    return rt.getForObject(url, AccessToken.class);
   }
 }

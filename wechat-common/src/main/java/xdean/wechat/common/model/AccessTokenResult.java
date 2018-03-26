@@ -8,18 +8,18 @@ import lombok.ToString;
 
 @Getter
 @ToString(callSuper = true)
-public class AccessToken extends WeChatError {
+public class AccessTokenResult extends WeChatError {
   @JsonAlias("access_token")
   private String token;
 
   private long timestamp;
 
-  private long expireTime;
+  private int expireSecond;
 
   @JsonAlias("expires_in")
   @JsonSetter
   private void setExpire(int seconds) {
     timestamp = System.currentTimeMillis();
-    expireTime = timestamp + seconds * 1000;
+    expireSecond = seconds;
   }
 }
