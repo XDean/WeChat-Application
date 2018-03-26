@@ -12,6 +12,11 @@ public class MessageController implements Logable {
   @PostXml(path = "wechat")
   public TextMessage postMessage(@RequestBody TextMessage text) {
     info(text.toString());
-    return text;
+    return text.toBuilder()
+        .fromUserName(text.getToUserName())
+        .toUserName(text.getFromUserName())
+        .createTime((int) (System.currentTimeMillis() / 1000L))
+        .content("Stupid XuXu!")
+        .build();
   }
 }

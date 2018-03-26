@@ -19,7 +19,7 @@ public class TextMessage extends Message {
   @Getter(onMethod_ = @XmlElement(name = "Content"))
   private String content;
 
-  @Builder
+  @Builder(toBuilder = true)
   public TextMessage(int id, String fromUserName, String toUserName, int createTime, String content) {
     super(id, fromUserName, toUserName, createTime, "text");
     this.content = content;

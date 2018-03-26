@@ -12,17 +12,17 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public abstract class Message {
   @Getter(onMethod_ = @XmlElement(name = "MsgId"))
-  private int id;
+  int id;
 
   @Getter(onMethod_ = @XmlElement(name = "FromUserName"))
-  private String fromUserName;
+  String fromUserName;
 
   @Getter(onMethod_ = @XmlElement(name = "ToUserName"))
-  private String toUserName;
+  String toUserName;
 
   @Getter(onMethod_ = @XmlElement(name = "CreateTime"))
-  private int createTime;
+  int createTime;
 
   @Getter(onMethod_ = @XmlElement(name = "MsgType"))
-  private String messageType;
+  String messageType;
 }
