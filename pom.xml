@@ -21,11 +21,13 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 	</properties>
+	
 	<modules>
 		<module>wechat-common</module>
 		<module>wechat-boardgame-toolkit</module>
 		<module>wechat-test</module>
 	</modules>
+	
 	<dependencies>
 		<dependency>
 			<groupId>com.github.XDean</groupId>
