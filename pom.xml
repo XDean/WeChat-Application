@@ -26,13 +26,10 @@
 	<modules>
 		<module>wechat-common</module>
 		<module>wechat-boardgame-toolkit</module>
+		<module>wechat-test</module>
 	</modules>
 
 	<dependencies>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
-    </dependency>
     <dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>

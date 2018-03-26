@@ -1,4 +1,4 @@
-package xdean.wechat.boardgame;
+package xdean.wechat.test;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
