@@ -10,7 +10,9 @@ import xdean.wechat.common.model.message.TextMessage;
 @RestController
 public class MessageController implements Logable {
   @PostMapping("wechat")
-  public void postMessage(@RequestBody TextMessage text) {
+  public TextMessage postMessage(@RequestBody TextMessage text) {
+    info(text.toString());
     System.err.println(text);
+    return text;
   }
 }

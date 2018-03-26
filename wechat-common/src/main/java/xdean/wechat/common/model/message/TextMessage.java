@@ -17,9 +17,8 @@ public class TextMessage extends Message {
   String content;
 
   @Builder
-  public TextMessage(int id, String fromUserName, String toUserName, int createTime,
-      String messageType, String content) {
-    super(id, fromUserName, toUserName, createTime, messageType);
+  public TextMessage(int id, String fromUserName, String toUserName, int createTime, String content) {
+    super(id, fromUserName, toUserName, createTime, "text");
     this.content = content;
   }
 }
