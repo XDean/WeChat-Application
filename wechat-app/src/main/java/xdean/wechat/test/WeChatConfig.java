@@ -2,12 +2,10 @@ package xdean.wechat.test;
 
 import javax.inject.Singleton;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import xdean.wechat.common.model.WeChatSetting;
@@ -26,13 +24,5 @@ public class WeChatConfig implements WebMvcConfigurer {
         .appId(appId)
         .appSecret(appSecret)
         .build();
-  }
-
-  @Autowired
-  private PrintRequestInterceptor printRequestInterceptor;
-
-  @Override
-  public void addInterceptors(InterceptorRegistry registry) {
-    registry.addInterceptor(printRequestInterceptor);
   }
 }
