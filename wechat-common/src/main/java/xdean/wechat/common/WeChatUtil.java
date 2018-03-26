@@ -4,6 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
+import java.util.Objects;
 
 import xdean.jex.log.Log;
 import xdean.jex.log.LogFactory;
@@ -25,10 +26,11 @@ public class WeChatUtil {
     String digest = null;
     try {
       digest = SecurityUtil.digest(new ByteArrayInputStream(content.toString().getBytes()), "SHA-1");
+      LOG.debug("Calculate result: " + digest);
     } catch (NoSuchAlgorithmException | IOException e) {
       e.printStackTrace();
     }
     content = null;
-    return digest != null ? digest.equals(signature.toUpperCase()) : false;
+    return Objects.equals(digest, signature);
   }
 }
