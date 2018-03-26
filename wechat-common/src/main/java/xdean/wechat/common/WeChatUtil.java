@@ -6,11 +6,15 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.Objects;
 
+import org.springframework.web.client.RestTemplate;
+
+import com.google.common.collect.ImmutableMap;
+
 import xdean.jex.log.Log;
 import xdean.jex.log.LogFactory;
 import xdean.jex.util.security.SecurityUtil;
 
-public class WeChatUtil {
+public class WeChatUtil implements WeChatConstants {
 
   private static final Log LOG = LogFactory.from(WeChatUtil.class);
 
@@ -32,5 +36,12 @@ public class WeChatUtil {
     }
     content = null;
     return Objects.equals(digest, signature);
+  }
+
+  public static String getToken(String appid, String secret) {
+    final String url = WECHAT_URL + "/cgi-bin/token?grant_type=client_credential&{appid}&{secret}";
+    RestTemplate rt = new RestTemplate();
+    String result = rt.getForObject(url, String.class, ImmutableMap.of("appid", appid, "secret", secret));
+    return result;
   }
 }

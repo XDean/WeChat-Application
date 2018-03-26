@@ -1,10 +1,13 @@
 package xdean.wechat.common;
 
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 
-@Data
+@Getter
 @Builder
 public class WeChatVars {
-  String token;
+
+  private final String token;
+  private final String appId;
+  private final String appSecret;
 }
