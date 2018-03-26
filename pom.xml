@@ -3,7 +3,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.XDean</groupId>
-	<artifactId>wechat-app</artifactId>
+	<artifactId>wechat-parent</artifactId>
 	<version>1.0</version>
 	<packaging>pom</packaging>
 	<url>https://github.com/XDean/wechat-app</url>
@@ -25,7 +25,7 @@
 	<modules>
 		<module>wechat-common</module>
 		<module>wechat-boardgame-toolkit</module>
-		<module>wechat-test</module>
+		<module>wechat-app</module>
 	</modules>
 
 	<dependencies>

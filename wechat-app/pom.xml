@@ -3,10 +3,10 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.github.XDean</groupId>
-		<artifactId>wechat-app</artifactId>
+		<artifactId>wechat-parent</artifactId>
 		<version>1.0</version>
 	</parent>
-	<artifactId>wechat-test</artifactId>
+	<artifactId>wechat-app</artifactId>
 
 	<dependencies>
 		<dependency>
