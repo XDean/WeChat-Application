@@ -1,5 +1,7 @@
 package xdean.wechat.test;
 
+import javax.inject.Singleton;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,10 +13,15 @@ import xdean.wechat.common.WeChatVars;
 @PropertySource("classpath:wechat.properties")
 public class WeChatConfig {
   @Bean
-  public WeChatVars vars(@Value("${wechat.token}") String token) {
-    System.err.println(token);
+  @Singleton
+  public WeChatVars vars(
+      @Value("${wechat.token}") String token,
+      @Value("${wechat.appId}") String appId,
+      @Value("${wechat.appSecret}") String appSecret) {
     return WeChatVars.builder()
         .token(token)
+        .appId(appId)
+        .appSecret(appSecret)
         .build();
   }
 }

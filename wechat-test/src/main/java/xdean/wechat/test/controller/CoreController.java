@@ -2,8 +2,6 @@ package xdean.wechat.test.controller;
 
 import java.util.concurrent.TimeUnit;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.ApplicationContext;
@@ -13,7 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.reactivex.schedulers.Schedulers;
 import xdean.jex.log.Logable;
-import xdean.wechat.common.CommonUtil;
 import xdean.wechat.common.WeChatUtil;
 import xdean.wechat.common.WeChatVars;
 
@@ -35,11 +32,6 @@ public class CoreController implements Logable {
     }
     error("failed");
     return "failed";
-  }
-
-  @GetMapping("hello")
-  public String nothing(HttpServletRequest request) {
-    return "hi, buddy. " + CommonUtil.getIpAddr(request);
   }
 
   @GetMapping("/root/shutdown")
