@@ -1,4 +1,4 @@
-package xdean.wechat.test;
+package xdean.wechat.app;
 
 import javax.inject.Singleton;
 

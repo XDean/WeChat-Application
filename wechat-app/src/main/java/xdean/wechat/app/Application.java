@@ -1,7 +1,9 @@
-package xdean.wechat.test;
+package xdean.wechat.app;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.web.servlet.DispatcherServletAutoConfiguration;
+import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -9,6 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.web.servlet.DispatcherServlet;
 
 @SpringBootApplication
 @EnableWebSecurity
@@ -38,5 +41,15 @@ public class Application extends WebSecurityConfigurerAdapter {
         .password("dean")
         .roles("user")
         .build());
+  }
+
+  @Bean
+  public ServletRegistrationBean<DispatcherServlet> dispatcherRegistration() {
+    return new ServletRegistrationBean<>(dispatcherServlet());
+  }
+
+  @Bean(name = DispatcherServletAutoConfiguration.DEFAULT_DISPATCHER_SERVLET_BEAN_NAME)
+  public DispatcherServlet dispatcherServlet() {
+    return new LoggableDispatcherServlet();
   }
 }

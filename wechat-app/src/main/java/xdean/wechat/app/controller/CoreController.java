@@ -1,4 +1,4 @@
-package xdean.wechat.test.controller;
+package xdean.wechat.app.controller;
 
 import java.util.concurrent.TimeUnit;
 

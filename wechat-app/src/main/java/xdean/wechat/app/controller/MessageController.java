@@ -1,4 +1,4 @@
-package xdean.wechat.test.controller;
+package xdean.wechat.app.controller;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
