@@ -11,15 +11,15 @@ import lombok.ToString;
 @ToString
 public class WeChatError {
   @JsonAlias("errcode")
-  private int code = 0;
+  private int errorCode = 0;
   @JsonAlias("errmsg")
-  private String message = "";
+  private String errorMessage = "";
 
   public boolean isError() {
-    return code != 0;
+    return errorCode != 0;
   }
 
   public String errorToString() {
-    return "code=" + code + ", message=" + message;
+    return "code=" + errorCode + ", message=" + errorMessage;
   }
 }

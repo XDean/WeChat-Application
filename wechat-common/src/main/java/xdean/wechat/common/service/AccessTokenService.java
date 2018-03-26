@@ -11,12 +11,13 @@ import io.reactivex.Scheduler;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.disposables.Disposables;
 import xdean.jex.extra.rx2.RxSchedulers;
+import xdean.jex.log.Logable;
 import xdean.wechat.common.WeChatConstants;
 import xdean.wechat.common.model.AccessTokenResult;
 import xdean.wechat.common.model.WeChatSetting;
 
 @Service
-public class AccessTokenService implements WeChatConstants {
+public class AccessTokenService implements WeChatConstants, Logable {
 
   @Inject
   private WeChatSetting setting;
@@ -27,7 +28,7 @@ public class AccessTokenService implements WeChatConstants {
 
   private Disposable refreshTask = Disposables.disposed();
 
-  private static final Scheduler SCHEDULER = RxSchedulers.fixedSize(1);
+  private static Scheduler SCHEDULER = RxSchedulers.fixedSize(1);
 
   public AccessTokenService() {
     refresh();
@@ -46,11 +47,34 @@ public class AccessTokenService implements WeChatConstants {
   }
 
   private void refresh0() {
+    debug("To refresh Access Token");
     refreshTask.dispose();
     AccessTokenResult result = requestToken();
-    this.token = result.getToken();
-    if (autoRefresh) {
-      refreshTask = SCHEDULER.scheduleDirect(this::refresh0, result.getExpireSecond() - 5, TimeUnit.SECONDS);
+    if (result.isError()) {
+      warn("Request Access Token failed: " + result.errorToString());
+      switch (result.getErrorCode()) {
+      case -1:
+        info("Retry to get Access Token in 5 seconds.");
+        refreshTask = SCHEDULER.scheduleDirect(this::refresh0, 5, TimeUnit.SECONDS);
+        break;
+      case 40001:
+        warn("AppSecret incorrect.");
+        break;
+      case 40002:
+        warn("Grant_type incorrect.");
+        break;
+      case 40164:
+        warn("IP not in white list");
+        break;
+      default:
+        warn("Unknown error.");
+        break;
+      }
+    } else {
+      this.token = result.getToken();
+      if (autoRefresh) {
+        refreshTask = SCHEDULER.scheduleDirect(this::refresh0, result.getExpireSecond() - 5, TimeUnit.SECONDS);
+      }
     }
   }
 
