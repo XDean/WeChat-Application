@@ -2,6 +2,7 @@ package xdean.wechat.test.controller;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.concurrent.TimeUnit;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -11,20 +12,49 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.reactivex.schedulers.Schedulers;
 import xdean.wechat.test.SignUtil;
 
 @SpringBootApplication
 @RestController
-public class CoreController {
+@EnableWebSecurity
+public class CoreController extends WebSecurityConfigurerAdapter {
   private static Logger log = LoggerFactory.getLogger(CoreController.class);
 
   public static void main(String[] args) throws Exception {
     System.out.println(" springApplication run !");
     SpringApplication.run(CoreController.class, args);
+  }
+
+  @Override
+  protected void configure(HttpSecurity http) throws Exception {
+    http.authorizeRequests()
+        .antMatchers("/", "/home").permitAll()
+        .anyRequest().authenticated()
+        .and().formLogin().permitAll()
+        .and().logout().permitAll();
+  }
+
+  @SuppressWarnings("deprecation")
+  @Bean
+  @Override
+  public UserDetailsService userDetailsService() {
+    return new InMemoryUserDetailsManager(User.withDefaultPasswordEncoder()
+        .username("dean")
+        .password("dean")
+        .roles("user")
+        .build());
   }
 
   @GetMapping("")
@@ -49,8 +79,9 @@ public class CoreController {
   private ApplicationContext applicationContext;
 
   @GetMapping
-  public int shutdown() {
-    return SpringApplication.exit(applicationContext);
+  public String shutdown(@RequestParam(name = "delay", required = false, defaultValue = "1000") int delay) {
+    Schedulers.io().scheduleDirect(() -> SpringApplication.exit(applicationContext), delay, TimeUnit.MILLISECONDS);
+    return "SHUTDOWN";
   }
 
   public static String getIpAddr(HttpServletRequest request) {

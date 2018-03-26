@@ -9,7 +9,6 @@
 	<url>https://github.com/XDean/wechat-app</url>
 	<name>XDean's wechat app</name>
 	<description>Wechat APP</description>
-
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
@@ -22,15 +21,18 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 	</properties>
-	
 	<modules>
 		<module>wechat-common</module>
 		<module>wechat-boardgame-toolkit</module>
 		<module>wechat-test</module>
 	</modules>
-
 	<dependencies>
-    <dependency>
+		<dependency>
+			<groupId>com.github.XDean</groupId>
+			<artifactId>Java-EX</artifactId>
+			<version>0.1.0</version>
+		</dependency>
+		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<scope>provided</scope>
@@ -68,7 +70,7 @@
 		<developerConnection>scm:git@github.com:XDean/wechat-app.git</developerConnection>
 		<url>git@github.com:XDean/wechat-app.git</url>
 	</scm>
-	
+
 	<profiles>
 		<profile>
 			<id>coverage</id>
