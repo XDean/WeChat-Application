@@ -8,8 +8,16 @@
 	</parent>
 	<artifactId>wechat-boardgame-toolkit</artifactId>
 	<packaging>pom</packaging>
+
 	<modules>
 		<module>wechat-boardgame-common</module>
 		<module>wechat-boardgame-one-night-wolf</module>
 	</modules>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.github.XDean</groupId>
+			<artifactId>wechat-common</artifactId>
+		</dependency>
+	</dependencies>
 </project>

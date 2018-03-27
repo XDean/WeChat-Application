@@ -51,6 +51,16 @@
 		</dependency>
 	</dependencies>
 
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>com.github.XDean</groupId>
+				<artifactId>wechat-common</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
 	<developers>
 		<developer>
 			<name>XDean</name>
