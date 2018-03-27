@@ -9,9 +9,11 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import lombok.experimental.Accessors;
 
 @Data
 @NoArgsConstructor
+@Accessors(chain = true)
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
 @XmlRootElement(name = "xml")
@@ -23,5 +25,9 @@ public class TextMessage extends Message {
   public TextMessage(int id, String fromUserName, String toUserName, int createTime, String content) {
     super(id, fromUserName, toUserName, createTime, "text");
     this.content = content;
+  }
+
+  public static class TextMessageBuilder {
+
   }
 }
