@@ -23,5 +23,5 @@ public abstract class WeChatEvent {
   int createTime;
 
   @Getter(onMethod_ = @XmlElement(name = "MsgType"))
-  String messageType;
+  MessageType type;
 }

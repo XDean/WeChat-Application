@@ -23,11 +23,7 @@ public class TextMessage extends Message {
 
   @Builder(toBuilder = true)
   public TextMessage(int id, String fromUserName, String toUserName, int createTime, String content) {
-    super(id, fromUserName, toUserName, createTime, "text");
+    super(id, fromUserName, toUserName, createTime, MessageType.TEXT);
     this.content = content;
-  }
-
-  public static class TextMessageBuilder {
-
   }
 }

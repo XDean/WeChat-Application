@@ -18,8 +18,8 @@ public abstract class Message extends WeChatEvent {
   @Getter(onMethod_ = @XmlElement(name = "MsgId"))
   int id;
 
-  public Message(int id, String fromUserName, String toUserName, int createTime, String messageType) {
-    super(fromUserName, toUserName, createTime, messageType);
+  public Message(int id, String fromUserName, String toUserName, int createTime, MessageType type) {
+    super(fromUserName, toUserName, createTime, type);
     this.id = id;
   }
 }
