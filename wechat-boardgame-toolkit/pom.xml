@@ -11,14 +11,22 @@
 
 	<modules>
 		<module>wechat-boardgame-app</module>
-		<module>wechat-boardgame-common</module>
 		<module>wechat-boardgame-one-night-wolf</module>
 	</modules>
-
 	<dependencies>
 		<dependency>
 			<groupId>com.github.XDean</groupId>
 			<artifactId>wechat-common</artifactId>
 		</dependency>
 	</dependencies>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>com.github.XDean</groupId>
+				<artifactId>wechat-boardgame-app</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 </project>

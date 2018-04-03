@@ -5,5 +5,5 @@
     <artifactId>wechat-boardgame-parent</artifactId>
     <version>1.0</version>
   </parent>
-  <artifactId>wechat-boardgame-common</artifactId>
+  <artifactId>wechat-boardgame-app</artifactId>
 </project>
