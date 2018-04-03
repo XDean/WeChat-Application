@@ -13,10 +13,20 @@ import org.springframework.web.util.ContentCachingResponseWrapper;
 import org.springframework.web.util.WebUtils;
 
 import com.google.common.base.MoreObjects;
+import com.google.common.base.MoreObjects.ToStringHelper;
 
+import xdean.jex.log.Log;
+import xdean.jex.log.LogFactory;
 import xdean.jex.log.Logable;
 
 public class LoggableDispatcherServlet extends DispatcherServlet implements Logable {
+
+  private static final Log LOG = LogFactory.from("xdean.printResponse");
+
+  @Override
+  public Log log() {
+    return LOG;
+  }
 
   @Override
   protected void doDispatch(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -36,21 +46,24 @@ public class LoggableDispatcherServlet extends DispatcherServlet implements Loga
     }
   }
 
-  private void log(HttpServletRequest requestToCache, HttpServletResponse responseToCache, HandlerExecutionChain handler) {
-    info(MoreObjects.toStringHelper(HttpServletRequest.class)
-        .add("status", responseToCache.getStatus())
-        .add("method", requestToCache.getMethod())
-        .add("path", requestToCache.getRequestURI())
-        .add("client-ip", requestToCache.getRemoteAddr())
+  private void log(HttpServletRequest request, HttpServletResponse response, HandlerExecutionChain handler) {
+    String contentType = response.getContentType();
+    ToStringHelper tsh = MoreObjects.toStringHelper("Http request and response")
+        .add("status", response.getStatus())
+        .add("method", request.getMethod())
+        .add("path", request.getRequestURI())
+        .add("client-ip", request.getRemoteAddr())
         .add("java-method", handler.toString())
-        .add("response", getResponsePayload(responseToCache))
-        .toString());
+        .add("content-type", contentType);
+    if (contentType.contains("text") || contentType.contains("json") || contentType.contains("xml")) {
+      tsh.add("response", getResponsePayload(response));
+    }
+    debug(tsh.toString());
   }
 
   private String getResponsePayload(HttpServletResponse response) {
     ContentCachingResponseWrapper wrapper = WebUtils.getNativeResponse(response, ContentCachingResponseWrapper.class);
     if (wrapper != null) {
-
       byte[] buf = wrapper.getContentAsByteArray();
       if (buf.length > 0) {
         int length = Math.min(buf.length, 5120);
@@ -68,5 +81,4 @@ public class LoggableDispatcherServlet extends DispatcherServlet implements Loga
     ContentCachingResponseWrapper responseWrapper = WebUtils.getNativeResponse(response, ContentCachingResponseWrapper.class);
     responseWrapper.copyBodyToResponse();
   }
-
 }
