@@ -8,9 +8,12 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import com.ulisesbocchio.jasyptspringboot.annotation.EnableEncryptableProperties;
+
 import xdean.wechat.common.model.WeChatSetting;
 
 @Configuration
+@EnableEncryptableProperties
 @PropertySource("classpath:wechat.properties")
 public class WeChatConfig implements WebMvcConfigurer {
   @Bean
@@ -19,10 +22,12 @@ public class WeChatConfig implements WebMvcConfigurer {
       @Value("${wechat.token}") String token,
       @Value("${wechat.appId}") String appId,
       @Value("${wechat.appSecret}") String appSecret) {
-    return WeChatSetting.builder()
+    WeChatSetting b = WeChatSetting.builder()
         .token(token)
         .appId(appId)
         .appSecret(appSecret)
         .build();
+    System.err.println(b);
+    return b;
   }
 }
