@@ -1,4 +1,4 @@
-package xdean.wechat.app.controller;
+package xdean.wechat.bg.controller;
 
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;

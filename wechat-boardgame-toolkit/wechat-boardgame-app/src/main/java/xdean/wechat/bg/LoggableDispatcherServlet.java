@@ -1,4 +1,4 @@
-package xdean.wechat.app;
+package xdean.wechat.bg;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
