@@ -1,5 +1,6 @@
 package xdean.wechat.common.spring;
 
+import java.text.MessageFormat;
 import java.util.Locale;
 
 import org.springframework.context.MessageSource;
@@ -14,11 +15,15 @@ public class LocaledMessageSource {
     this.locale = locale;
   }
 
-  String getMessage(String code, Object... args) throws NoSuchMessageException {
+  public String getMessage(String code, Object... args) throws NoSuchMessageException {
     return source.getMessage(code, args, locale);
   }
 
-  String getMessage(String defaultMessage, String code, Object... args) {
+  public String getMessage(String defaultMessage, String code, Object... args) {
     return source.getMessage(code, args, defaultMessage, locale);
+  }
+
+  public MessageFormat getMessageFormat(String code) {
+    return new MessageFormat(getMessage(code), locale);
   }
 }
