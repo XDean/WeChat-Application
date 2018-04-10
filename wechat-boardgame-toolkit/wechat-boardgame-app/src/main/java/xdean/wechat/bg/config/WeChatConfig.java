@@ -1,4 +1,4 @@
-package xdean.wechat.bg;
+package xdean.wechat.bg.config;
 
 import javax.inject.Singleton;
 
@@ -22,12 +22,10 @@ public class WeChatConfig implements WebMvcConfigurer {
       @Value("${wechat.token}") String token,
       @Value("${wechat.appId}") String appId,
       @Value("${wechat.appSecret}") String appSecret) {
-    WeChatSetting b = WeChatSetting.builder()
+    return WeChatSetting.builder()
         .token(token)
         .appId(appId)
         .appSecret(appSecret)
         .build();
-    System.err.println(b);
-    return b;
   }
 }
