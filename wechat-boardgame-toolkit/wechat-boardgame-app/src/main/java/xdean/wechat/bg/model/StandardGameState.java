@@ -5,24 +5,25 @@ import java.util.Collection;
 
 import xdean.wechat.bg.model.StandardGameCommand.JoinGame;
 import xdean.wechat.bg.resources.Messages;
-import xdean.wechat.common.spring.TextResponse;
+import xdean.wechat.common.spring.TextWrapper;
 
 public enum StandardGameState implements GameState {
   OUT() {
     @Override
-    public TextResponse handle(Player player, GameCommand command) {
-      return command.<TextResponse> visit()
+    public TextWrapper handle(Player player, GameCommand command) {
+      return command.<TextWrapper> visit()
           .on(JoinGame.class, j -> {
             int boardId = j.boardId();
             player.setState(WAITING);
-            return TextResponse.of(Messages.GAME_JOIN_SUCCESS);
+            // TODO into the board
+            return TextWrapper.of(Messages.GAME_JOIN_SUCCESS);
           })
-          .orElse(s -> s.getMessage(Messages.COMMAND_ERROR, avaliableCommandsToString(s)));
+          .orElse(s -> s.getMessage(Messages.COMMAND_ERROR, avaliableCommandsToString().get(s)));
     }
   },
   WAITING() {
     @Override
-    public TextResponse handle(Player player, GameCommand command) {
+    public TextWrapper handle(Player player, GameCommand command) {
       // TODO Auto-generated method stub
       return null;
     }
