@@ -1,38 +1,16 @@
 package xdean.wechat.bg.model;
 
+import xdean.deannotation.checker.AssertChildren;
+import xdean.wechat.bg.resources.Messages;
 import xdean.wechat.common.spring.Visitor.Visitable;
 
+@FunctionalInterface
+@AssertChildren(annotated = CommandHint.class)
+@CommandHint(Messages.COMMAND_UNKNOWN)
 public interface GameCommand extends Visitable<GameCommand> {
-  Object commandData();
+  Object data();
 
-  String messageCode();
-
-  interface JoinGame extends GameCommand {
-    int boardId();
-
-    @Override
-    default Integer commandData() {
-      return boardId();
-    }
-
-    @Override
-    default String messageCode() {
-      return null;
-    }
-  }
-
-  interface ExitGame extends GameCommand {
-
-    int exitCode();
-
-    @Override
-    default Integer commandData() {
-      return exitCode();
-    }
-
-    @Override
-    default String messageCode() {
-      return null;
-    }
+  static String getHint(Class<? extends GameCommand> clz) {
+    return clz.getAnnotation(CommandHint.class).value();
   }
 }
