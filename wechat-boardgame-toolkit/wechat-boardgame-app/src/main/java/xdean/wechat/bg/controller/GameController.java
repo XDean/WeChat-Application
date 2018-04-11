@@ -11,13 +11,10 @@ import javax.inject.Qualifier;
 
 import org.springframework.stereotype.Controller;
 
-import xdean.wechat.bg.Game;
-
 @Documented
 @Retention(RUNTIME)
 @Target(TYPE)
 @Controller
 @Qualifier
 public @interface GameController {
-  Game value();
 }

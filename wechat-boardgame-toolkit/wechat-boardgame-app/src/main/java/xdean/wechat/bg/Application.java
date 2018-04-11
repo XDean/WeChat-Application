@@ -4,7 +4,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.web.servlet.DispatcherServletAutoConfiguration;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -13,8 +15,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.web.servlet.DispatcherServlet;
 
-@SpringBootApplication
 @EnableWebSecurity
+@SpringBootApplication
 public class Application extends WebSecurityConfigurerAdapter {
 
   public static void main(String[] args) throws Exception {
@@ -51,5 +53,13 @@ public class Application extends WebSecurityConfigurerAdapter {
   @Bean(name = DispatcherServletAutoConfiguration.DEFAULT_DISPATCHER_SERVLET_BEAN_NAME)
   public DispatcherServlet dispatcherServlet() {
     return new LoggableDispatcherServlet();
+  }
+
+  @Bean
+  public MessageSource message() {
+    ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
+    messageSource.setBasename("message/messages");
+    messageSource.setDefaultEncoding("UTF-8");
+    return messageSource;
   }
 }
