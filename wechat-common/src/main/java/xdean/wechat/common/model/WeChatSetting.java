@@ -13,4 +13,5 @@ public class WeChatSetting {
   public final String token;
   public final String appId;
   public final String appSecret;
+  public final String wechatId;
 }

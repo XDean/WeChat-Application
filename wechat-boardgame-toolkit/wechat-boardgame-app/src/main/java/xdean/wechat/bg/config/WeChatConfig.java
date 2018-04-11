@@ -21,11 +21,13 @@ public class WeChatConfig implements WebMvcConfigurer {
   public WeChatSetting vars(
       @Value("${wechat.token}") String token,
       @Value("${wechat.appId}") String appId,
+      @Value("${wechat.wechatId}") String wechatId,
       @Value("${wechat.appSecret}") String appSecret) {
     return WeChatSetting.builder()
         .token(token)
         .appId(appId)
         .appSecret(appSecret)
+        .wechatId(wechatId)
         .build();
   }
 }
