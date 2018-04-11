@@ -9,9 +9,9 @@ public interface GameCommand<T> extends Visitable<GameCommand<T>> {
   TextWrapper hint();
 
   @FunctionalInterface
-  interface NoDataCommand extends GameCommand<Void> {
+  interface NoDataCommand<T> extends GameCommand<T> {
     @Override
-    default Void data() {
+    default T data() {
       return null;
     }
 

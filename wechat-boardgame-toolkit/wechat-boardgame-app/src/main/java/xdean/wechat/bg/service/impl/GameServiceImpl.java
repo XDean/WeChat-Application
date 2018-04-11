@@ -1,5 +1,8 @@
 package xdean.wechat.bg.service.impl;
 
+import static xdean.jex.util.function.Predicates.not;
+
+import java.text.ParseException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,8 +19,9 @@ import org.springframework.stereotype.Service;
 
 import xdean.wechat.bg.model.Board;
 import xdean.wechat.bg.model.GameCommand;
-import xdean.wechat.bg.model.GameCommandParser;
 import xdean.wechat.bg.model.Player;
+import xdean.wechat.bg.model.impl.StandardGameCommand;
+import xdean.wechat.bg.service.GameCommandParserService;
 import xdean.wechat.bg.service.GameService;
 import xdean.wechat.bg.service.GameStateService;
 import xdean.wechat.common.model.WeChatSetting;
@@ -33,7 +37,7 @@ public class GameServiceImpl implements GameService {
 
   private @Inject MessageSource messageSource;
 
-  private @Inject List<GameCommandParser> commandParsers;
+  private @Inject List<GameCommandParserService> commandParsers;
 
   private @Inject WeChatSetting weChatSetting;
 
@@ -58,17 +62,31 @@ public class GameServiceImpl implements GameService {
 
   @Override
   public GameCommand<?> parseCommand(Player player, String text) {
-    return null;
+    return commandParsers.stream()
+        .map(p -> {
+          try {
+            return p.parse(player, text, player.getMessageSource());
+          } catch (ParseException e) {
+            return null;
+          }
+        })
+        .filter(not(null))
+        .findAny()
+        .orElse(StandardGameCommand.errorInput());
   }
 
   @Override
   public Message runCommand(Player player, GameCommand<?> command) {
-    GameStateService service = context.getBean(player.getState(), GameStateService.class);
     return TextMessage.builder()
         .fromUserName(weChatSetting.wechatId)
         .toUserName(player.id)
-        .content(service.handle(player, command).get(player.getMessageSource()))
+        .content(getStateHandler(player).handle(player, command).get(player.getMessageSource()))
         .build();
+  }
+
+  @Override
+  public GameStateService getStateHandler(Player player) {
+    return context.getBean(player.getState(), GameStateService.class);
   }
 
   private Player constructPlayer(String id) {
