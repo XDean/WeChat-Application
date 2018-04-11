@@ -49,14 +49,14 @@ public class Visitor<T, V, R> {
     this.value = v;
   }
 
-  public Visitor<T, V, R> on(T t, Function<V, R> task) {
+  public Visitor<T, V, R> onEquals(Object t, Function<V, R> task) {
     if (Objects.equals(t, tester)) {
       result = task.apply(value);
     }
     return this;
   }
 
-  public <K> Visitor<T, V, R> on(Class<K> clz, Function<K, R> task) {
+  public <K> Visitor<T, V, R> onType(Class<K> clz, Function<K, R> task) {
     if (clz.isInstance(tester)) {
       result = task.apply((K) value);
     }
