@@ -2,6 +2,7 @@ package xdean.wechat.bg.service.impl;
 
 import static xdean.wechat.bg.model.impl.StandardGameCommand.CREATE_GAME;
 import static xdean.wechat.bg.model.impl.StandardGameCommand.ERROR_INPUT;
+import static xdean.wechat.bg.model.impl.StandardGameCommand.HELP;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,6 +28,11 @@ public class GameCommandParserServiceImpl {
   @Bean
   public GameCommandParserService createGame() {
     return GameCommandParserService.of(Messages.GAME_CREATE, os -> CREATE_GAME);
+  }
+
+  @Bean
+  public GameCommandParserService help() {
+    return GameCommandParserService.of(Messages.COMMAND_HELP, os -> HELP);
   }
 
   @Bean

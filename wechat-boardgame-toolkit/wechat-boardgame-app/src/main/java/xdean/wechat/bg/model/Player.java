@@ -45,4 +45,8 @@ public class Player extends Identifiable<String> {
   public <T> T setData(Class<?> owner, T value) {
     return (T) dataMap.put(owner, value);
   }
+
+  public void exit() {
+    board.exit(this);
+  }
 }
