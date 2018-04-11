@@ -1,5 +1,6 @@
-package xdean.wechat.bg.model;
+package xdean.wechat.bg.model.impl;
 
+import xdean.wechat.bg.model.GameCommand;
 import xdean.wechat.bg.resources.Messages;
 import xdean.wechat.common.spring.TextWrapper;
 

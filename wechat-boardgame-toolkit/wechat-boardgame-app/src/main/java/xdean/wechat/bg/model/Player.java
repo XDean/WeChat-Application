@@ -1,6 +1,8 @@
 package xdean.wechat.bg.model;
 
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 import org.springframework.context.MessageSource;
 
@@ -8,27 +10,39 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
+import xdean.wechat.bg.model.impl.StandardGameState;
+import xdean.wechat.common.spring.Identifiable;
 import xdean.wechat.common.spring.LocaledMessageSource;
 import xdean.wechat.common.spring.NonNulls;
 
-@FieldDefaults(level = AccessLevel.PRIVATE)
 @Getter
 @Setter
-public class Player {
+@FieldDefaults(level = AccessLevel.PRIVATE)
+public class Player extends Identifiable<String> {
 
-  public final String wechatId;
+  String state = StandardGameState.OUT;
 
-  GameState state = StandardGameState.OUT;
-
-  GameBoard board = GameBoard.EMPTY;
+  Board board = Board.EMPTY;
 
   Locale locale = Locale.SIMPLIFIED_CHINESE;
 
   MessageSource source = NonNulls.messageSource();
 
-  final LocaledMessageSource messageSource = new LocaledMessageSource(() -> source, () -> locale);
+  LocaledMessageSource messageSource = new LocaledMessageSource(() -> source, () -> locale);
+
+  Map<Class<?>, Object> dataMap = new HashMap<>();
 
   public Player(String id) {
-    this.wechatId = id;
+    super(id);
+  }
+
+  @SuppressWarnings("unchecked")
+  public <T> T getData(Class<?> owner) {
+    return (T) dataMap.get(owner);
+  }
+
+  @SuppressWarnings("unchecked")
+  public <T> T setData(Class<?> owner, T value) {
+    return (T) dataMap.put(owner, value);
   }
 }

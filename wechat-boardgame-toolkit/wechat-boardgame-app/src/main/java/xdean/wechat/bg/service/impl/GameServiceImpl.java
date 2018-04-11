@@ -1,5 +1,6 @@
-package xdean.wechat.bg.service;
+package xdean.wechat.bg.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.WeakHashMap;
@@ -11,9 +12,12 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
+import xdean.wechat.bg.model.Board;
 import xdean.wechat.bg.model.GameCommand;
 import xdean.wechat.bg.model.GameCommandParser;
 import xdean.wechat.bg.model.Player;
+import xdean.wechat.bg.service.GameService;
+import xdean.wechat.bg.service.GameStateService;
 import xdean.wechat.common.model.WeChatSetting;
 import xdean.wechat.common.model.message.Message;
 import xdean.wechat.common.model.message.TextMessage;
@@ -32,10 +36,16 @@ public class GameServiceImpl implements GameService {
   private @Inject WeChatSetting weChatSetting;
 
   private final Map<String, Player> players = new WeakHashMap<>();
+  private final Map<Integer, Board> boards = new HashMap<>();
 
   @Override
   public Player getPlayer(String wechatId) {
-    return players.computeIfAbsent(wechatId, this::construct);
+    return players.computeIfAbsent(wechatId, this::constructPlayer);
+  }
+
+  @Override
+  public Board getBoard(int id) {
+    return boards.computeIfAbsent(id, this::constructBoard);
   }
 
   @Override
@@ -45,16 +55,22 @@ public class GameServiceImpl implements GameService {
 
   @Override
   public Message runCommand(Player player, GameCommand<?> command) {
+    GameStateService service = context.getBean(player.getState(), GameStateService.class);
     return TextMessage.builder()
         .fromUserName(weChatSetting.wechatId)
-        .toUserName(player.wechatId)
-        .content(player.getState().handle(player, command).get(player.getMessageSource()))
+        .toUserName(player.id)
+        .content(service.handle(player, command).get(player.getMessageSource()))
         .build();
   }
 
-  private Player construct(String id) {
+  private Player constructPlayer(String id) {
     Player p = new Player(id);
     p.setSource(messageSource);
     return p;
+  }
+
+  private Board constructBoard(int id) {
+    Board b = new Board(id);
+    return b;
   }
 }
