@@ -23,7 +23,7 @@ public class CoreController implements Logable {
   @Autowired
   private WeChatSetting wcv;
 
-  @GetMapping("wechat")
+  @GetMapping("wechat/bg")
   public String checkSignature(@RequestParam String signature, @RequestParam String nonce,
       @RequestParam String timestamp, @RequestParam String echostr) {
     if (WeChatUtil.checkSignature(wcv.getToken(), signature, timestamp, nonce)) {

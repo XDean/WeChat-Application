@@ -1,31 +1,30 @@
 package xdean.wechat.bg.model;
 
-import static xdean.wechat.bg.model.StandardGameCommand.JOIN_GAME;
+import static xdean.wechat.bg.model.StandardGameCommand.*;
 
 import java.util.Arrays;
 import java.util.Collection;
 
-import xdean.wechat.bg.model.GameCommand.GameCommandWithData;
 import xdean.wechat.bg.resources.Messages;
 import xdean.wechat.common.spring.TextWrapper;
 
 public enum StandardGameState implements GameState {
-  OUT() {
+  OUT(JoinGame.HINT) {
     @Override
-    public TextWrapper handle(Player player, GameCommandWithData<?> command) {
+    public TextWrapper handle(Player player, GameCommand<?> command) {
       return command.<TextWrapper> visit()
-          .on(g -> g.command() == JOIN_GAME, j -> {
-            int boardId = (Integer) j.data();
+          .on(JoinGame.class, j -> {
+            int boardId = j.boardId();
             player.setState(WAITING);
             // TODO into the board
             return TextWrapper.of(Messages.GAME_JOIN_SUCCESS);
           })
-          .orElse(s -> s.getMessage(Messages.COMMAND_ERROR, avaliableCommandsToString().get(s)));
+          .orElse(s -> s.getMessage(Messages.COMMAND_ERROR, avaliableCommandsHints().get(s)));
     }
   },
-  WAITING() {
+  WAITING(ExitGame.HINT) {
     @Override
-    public TextWrapper handle(Player player, GameCommandWithData<?> command) {
+    public TextWrapper handle(Player player, GameCommand<?> command) {
       // TODO Auto-generated method stub
       return null;
     }

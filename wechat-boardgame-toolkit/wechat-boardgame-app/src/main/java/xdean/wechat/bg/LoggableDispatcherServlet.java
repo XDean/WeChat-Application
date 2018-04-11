@@ -55,7 +55,7 @@ public class LoggableDispatcherServlet extends DispatcherServlet implements Loga
         .add("client-ip", request.getRemoteAddr())
         .add("java-method", handler.toString())
         .add("content-type", contentType);
-    if (contentType.contains("text") || contentType.contains("json") || contentType.contains("xml")) {
+    if (contentType != null && (contentType.contains("text") || contentType.contains("json") || contentType.contains("xml"))) {
       tsh.add("response", getResponsePayload(response));
     }
     debug(tsh.toString());

@@ -11,7 +11,7 @@
 
 	<modules>
 		<module>wechat-boardgame-app</module>
-		<module>wechat-boardgame-one-night-wolf</module>
+<!-- 		<module>wechat-boardgame-one-night-wolf</module> -->
 	</modules>
 	<dependencies>
 		<dependency>

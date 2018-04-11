@@ -26,4 +26,8 @@ public class TextMessage extends Message {
     super(id, fromUserName, toUserName, createTime, MessageType.TEXT);
     this.content = content;
   }
+
+  public static class TextMessageBuilder {
+    int createTime = (int) (System.currentTimeMillis() / 1000L);
+  }
 }
