@@ -52,7 +52,9 @@ public class GameServiceImpl implements GameService {
 
   @Override
   public Board createBoard() {
-    return constructBoard();
+    Board b = constructBoard();
+    boards.put(b.id, b);
+    return b;
   }
 
   @Override
@@ -103,7 +105,7 @@ public class GameServiceImpl implements GameService {
   private int nextBoardId() {
     int id;
     do {
-      id = random.nextInt() % 1000000;
+      id = Math.abs(random.nextInt()) % 1000000;
     } while (boards.containsKey(id));
     return id;
   }

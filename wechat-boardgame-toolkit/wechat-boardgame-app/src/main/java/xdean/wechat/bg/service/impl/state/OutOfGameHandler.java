@@ -36,8 +36,9 @@ public class OutOfGameHandler implements GameStateServiceImpl {
             })
             .orElseGet(() -> TextWrapper.of(Messages.GAME_JOIN_BOARD_MISS)))
         .onEquals(CREATE_GAME, c -> {
-          Board board = gameService.createBoard();
-          return TextWrapper.of(Messages.GAME_CREATE_SUCCESS, board.id);
+          Board b = gameService.createBoard();
+          b.join(player);
+          return TextWrapper.of(Messages.GAME_CREATE_SUCCESS, b.id);
         })
         .get();
   }

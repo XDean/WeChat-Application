@@ -17,7 +17,7 @@ import xdean.wechat.bg.service.GameCommandParserService;
 public class GameCommandParserServiceImpl {
   @Bean
   public GameCommandParserService joinGame() {
-    return GameCommandParserService.of(Messages.GAME_JOIN, os -> (JoinGame) () -> (Integer) os[0]);
+    return GameCommandParserService.of(Messages.GAME_JOIN, os -> (JoinGame) () -> (Number) os[0]);
   }
 
   @Bean
