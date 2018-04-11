@@ -20,7 +20,7 @@ public class LocaledMessageSource {
     return source.get().getMessage(code, args, locale.get());
   }
 
-  public String getMessage(String defaultMessage, String code, Object... args) {
+  public String getMessageDefault(String defaultMessage, String code, Object... args) {
     return source.get().getMessage(code, args, defaultMessage, locale.get());
   }
 

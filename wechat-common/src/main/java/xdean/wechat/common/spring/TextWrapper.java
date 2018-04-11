@@ -8,6 +8,6 @@ public interface TextWrapper {
   }
 
   static TextWrapper of(String defaultMsg, String code, Object... args) {
-    return s -> s.getMessage(code, args, defaultMsg);
+    return s -> s.getMessageDefault(defaultMsg, code, args);
   }
 }
