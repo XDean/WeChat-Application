@@ -16,10 +16,10 @@ public interface GameStateService {
 
   TextWrapper avaliableCommandsHints();
 
-  static TextWrapper mergeHints(GameCommand<?>... commands) {
+  static TextWrapper mergeHints(TextWrapper... texts) {
     AtomicInteger count = new AtomicInteger(1);
-    return source -> Arrays.stream(commands)
-        .map(g -> g.hint().get(source))
+    return source -> Arrays.stream(texts)
+        .map(g -> g.get(source))
         .map(s -> count.getAndIncrement() + ". " + s)
         .collect(Collectors.joining("\n"));
   }

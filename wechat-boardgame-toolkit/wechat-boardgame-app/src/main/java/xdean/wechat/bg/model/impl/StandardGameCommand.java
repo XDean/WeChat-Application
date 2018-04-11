@@ -1,24 +1,17 @@
 package xdean.wechat.bg.model.impl;
 
+import xdean.wechat.bg.model.GameCommand.NoDataCommand;
 import xdean.wechat.bg.model.GameCommand;
 import xdean.wechat.bg.resources.Messages;
 import xdean.wechat.common.spring.TextWrapper;
 
 public interface StandardGameCommand {
-  GameCommand<Void> UNKNOWN = new GameCommand<Void>() {
-    @Override
-    public TextWrapper hint() {
-      return s -> s.getMessage(Messages.COMMAND_ERROR);
-    }
+  NoDataCommand UNKNOWN = () -> s -> s.getMessage(Messages.COMMAND_ERROR);
 
-    @Override
-    public Void data() {
-      return null;
-    }
-  };
+  NoDataCommand CREATE_GAME = () -> s -> s.getMessage(Messages.GAME_CREATE);
 
   interface JoinGame extends GameCommand<Integer> {
-    JoinGame HINT = () -> 0;
+    TextWrapper HINT = s -> s.getMessage(Messages.GAME_JOIN_HINT);
 
     int boardId();
 
@@ -29,12 +22,12 @@ public interface StandardGameCommand {
 
     @Override
     default TextWrapper hint() {
-      return s -> s.getMessage(Messages.GAME_JOIN_HINT);
+      return HINT;
     }
   }
 
   interface ExitGame extends GameCommand<Integer> {
-    ExitGame HINT = () -> 0;
+    TextWrapper HINT = s -> s.getMessage(Messages.GAME_EXIT);
 
     int exitCode();
 
@@ -45,7 +38,7 @@ public interface StandardGameCommand {
 
     @Override
     default TextWrapper hint() {
-      return s -> s.getMessage(Messages.GAME_EXIT);
+      return HINT;
     }
   }
 }

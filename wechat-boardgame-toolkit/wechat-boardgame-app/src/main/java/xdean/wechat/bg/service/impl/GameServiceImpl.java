@@ -3,6 +3,8 @@ package xdean.wechat.bg.service.impl;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.Random;
 import java.util.WeakHashMap;
 
 import javax.inject.Inject;
@@ -35,6 +37,7 @@ public class GameServiceImpl implements GameService {
 
   private @Inject WeChatSetting weChatSetting;
 
+  private final Random random = new Random();
   private final Map<String, Player> players = new WeakHashMap<>();
   private final Map<Integer, Board> boards = new HashMap<>();
 
@@ -44,8 +47,13 @@ public class GameServiceImpl implements GameService {
   }
 
   @Override
-  public Board getBoard(int id) {
-    return boards.computeIfAbsent(id, this::constructBoard);
+  public Board createBoard() {
+    return constructBoard();
+  }
+
+  @Override
+  public Optional<Board> getBoard(int id) {
+    return Optional.ofNullable(boards.get(id));
   }
 
   @Override
@@ -69,8 +77,16 @@ public class GameServiceImpl implements GameService {
     return p;
   }
 
-  private Board constructBoard(int id) {
-    Board b = new Board(id);
+  private Board constructBoard() {
+    Board b = new Board(nextBoardId());
     return b;
+  }
+
+  private int nextBoardId() {
+    int id;
+    do {
+      id = random.nextInt() % 1000000;
+    } while (boards.containsKey(id));
+    return id;
   }
 }
