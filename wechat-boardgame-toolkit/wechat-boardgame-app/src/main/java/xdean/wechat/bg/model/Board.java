@@ -22,4 +22,8 @@ public class Board extends Identifiable<Integer> {
   public Board(Integer id) {
     super(id);
   }
+
+  public boolean isFull() {
+    return players.size() >= maxPlayer;
+  }
 }
