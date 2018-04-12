@@ -7,11 +7,4 @@
 		<version>1.0</version>
 	</parent>
 	<artifactId>wechat-boardgame-one-night-wolf</artifactId>
-
-	<dependencies>
-		<dependency>
-			<groupId>com.github.XDean</groupId>
-			<artifactId>wechat-boardgame-app</artifactId>
-		</dependency>
-	</dependencies>
 </project>

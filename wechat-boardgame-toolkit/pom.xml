@@ -10,7 +10,7 @@
 	<packaging>pom</packaging>
 
 	<modules>
-    <module>common</module>
+		<module>common</module>
 		<module>app</module>
 		<module>games</module>
 	</modules>
@@ -27,19 +27,9 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-security</artifactId>
-    </dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
 	</dependencies>
-
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>com.github.XDean</groupId>
-				<artifactId>wechat-boardgame-app</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
 </project>

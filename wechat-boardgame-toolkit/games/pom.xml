@@ -13,5 +13,10 @@
 		<module>one-night-wolf</module>
 	</modules>
 	<dependencies>
+		<dependency>
+			<groupId>com.github.XDean</groupId>
+			<artifactId>wechat-boardgame-common</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 	</dependencies>
 </project>
