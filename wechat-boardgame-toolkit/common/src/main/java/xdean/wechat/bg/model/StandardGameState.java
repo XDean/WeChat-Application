@@ -1,4 +1,4 @@
-package xdean.wechat.bg.model.impl;
+package xdean.wechat.bg.model;
 
 public interface StandardGameState {
   String OUT = "out of game";

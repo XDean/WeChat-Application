@@ -10,7 +10,6 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
-import xdean.wechat.bg.model.impl.StandardGameState;
 import xdean.wechat.common.spring.Identifiable;
 import xdean.wechat.common.spring.LocaledMessageSource;
 import xdean.wechat.common.spring.NonNulls;
