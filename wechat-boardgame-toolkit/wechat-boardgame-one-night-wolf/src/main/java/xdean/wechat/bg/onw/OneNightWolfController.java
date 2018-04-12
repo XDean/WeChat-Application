@@ -1,11 +1,13 @@
 package xdean.wechat.bg.onw;
 
-import xdean.wechat.bg.controller.TextGameController;
-import xdean.wechat.common.model.message.TextMessage;
+import org.springframework.stereotype.Component;
 
-public class OneNightWolfController implements TextGameController {
+import xdean.wechat.bg.service.BoardGameEntrance;
+
+@Component
+public class OneNightWolfController implements BoardGameEntrance {
   @Override
-  public TextMessage handle(TextMessage input) {
-    return null;
+  public String name() {
+    return "one night wolf";
   }
 }

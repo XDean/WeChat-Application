@@ -10,6 +10,7 @@ import java.util.Optional;
 import java.util.Random;
 import java.util.WeakHashMap;
 
+import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
@@ -21,6 +22,7 @@ import xdean.wechat.bg.model.Board;
 import xdean.wechat.bg.model.GameCommand;
 import xdean.wechat.bg.model.Player;
 import xdean.wechat.bg.model.impl.StandardGameCommand;
+import xdean.wechat.bg.service.BoardGameEntrance;
 import xdean.wechat.bg.service.GameCommandParserService;
 import xdean.wechat.bg.service.GameService;
 import xdean.wechat.bg.service.GameStateService;
@@ -41,9 +43,16 @@ public class GameServiceImpl implements GameService {
 
   private @Inject WeChatSetting weChatSetting;
 
+  private @Inject List<BoardGameEntrance> games;
+
   private final Random random = new Random();
   private final Map<String, Player> players = new WeakHashMap<>();
   private final Map<Integer, Board> boards = new HashMap<>();
+
+  @PostConstruct
+  public void done() {
+    System.err.println(games);
+  }
 
   @Override
   public Player getPlayer(String wechatId) {
