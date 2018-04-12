@@ -10,8 +10,9 @@
 	<packaging>pom</packaging>
 
 	<modules>
-		<module>wechat-boardgame-app</module>
-<!-- 		<module>wechat-boardgame-one-night-wolf</module> -->
+    <module>common</module>
+		<module>app</module>
+		<module>games</module>
 	</modules>
 	<dependencies>
 		<dependency>
