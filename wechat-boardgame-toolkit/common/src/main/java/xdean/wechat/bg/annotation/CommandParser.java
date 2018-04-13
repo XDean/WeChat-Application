@@ -18,10 +18,6 @@ import org.springframework.core.annotation.Order;
 @Target(METHOD)
 @Order(0)
 public @interface CommandParser {
-  String[] app() default {};
-
-  String[] state() default {};
-
   @AliasFor(annotation = Order.class, attribute = "value")
   int order() default 0;
 }
