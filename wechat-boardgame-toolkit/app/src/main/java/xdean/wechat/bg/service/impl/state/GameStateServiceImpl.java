@@ -1,6 +1,6 @@
 package xdean.wechat.bg.service.impl.state;
 
-import static xdean.wechat.bg.model.impl.StandardGameCommand.HELP;
+import static xdean.wechat.bg.service.impl.command.StandardGameCommand.HELP;
 
 import java.util.List;
 import java.util.Optional;

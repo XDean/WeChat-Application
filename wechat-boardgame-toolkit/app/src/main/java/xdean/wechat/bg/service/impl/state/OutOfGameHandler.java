@@ -1,6 +1,6 @@
 package xdean.wechat.bg.service.impl.state;
 
-import static xdean.wechat.bg.model.impl.StandardGameCommand.CREATE_GAME;
+import static xdean.wechat.bg.service.impl.command.StandardGameCommand.CREATE_GAME;
 
 import java.util.Arrays;
 import java.util.List;
@@ -13,9 +13,9 @@ import xdean.wechat.bg.model.Board;
 import xdean.wechat.bg.model.GameCommand;
 import xdean.wechat.bg.model.Player;
 import xdean.wechat.bg.model.StandardGameState;
-import xdean.wechat.bg.model.impl.StandardGameCommand.JoinGame;
 import xdean.wechat.bg.resources.Messages;
 import xdean.wechat.bg.service.GameService;
+import xdean.wechat.bg.service.impl.command.StandardGameCommand.JoinGame;
 import xdean.wechat.common.spring.TextWrapper;
 
 @GameStateHandler(StandardGameState.OUT)

@@ -8,7 +8,7 @@ import xdean.wechat.bg.annotation.GameStateHandler;
 import xdean.wechat.bg.model.GameCommand;
 import xdean.wechat.bg.model.Player;
 import xdean.wechat.bg.model.StandardGameState;
-import xdean.wechat.bg.model.impl.StandardGameCommand.ExitGame;
+import xdean.wechat.bg.service.impl.command.StandardGameCommand.ExitGame;
 import xdean.wechat.bg.resources.Messages;
 import xdean.wechat.common.spring.TextWrapper;
 
