@@ -19,7 +19,11 @@ public interface DefaultGameStateHandler extends GameStateHandler {
         .onEquals(HELP, h -> s -> s.getMessage(Messages.COMMAND_SHOW_AVALIABLE, avaliableCommandsHints().get(s)))
         .get()
         .orElseGet(() -> handleActual(player, command)
-            .orElseGet(() -> s -> s.getMessage(Messages.COMMAND_SHOW_AVALIABLE_ERROR, avaliableCommandsHints().get(s))));
+            .orElseGet(() -> errorHint()));
+  }
+
+  default TextWrapper errorHint() {
+    return s -> s.getMessage(Messages.COMMAND_SHOW_AVALIABLE_ERROR, avaliableCommandsHints().get(s));
   }
 
   @Override

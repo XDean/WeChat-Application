@@ -2,7 +2,6 @@ package xdean.wechat.bg.service.impl;
 
 import static xdean.jex.util.function.Predicates.not;
 
-import java.text.ParseException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -77,7 +76,7 @@ public class GameServiceImpl implements GameService {
         .map(p -> {
           try {
             return p.parse(player, text);
-          } catch (ParseException e) {
+          } catch (Exception e) {
             return null;
           }
         })
