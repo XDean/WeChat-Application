@@ -1,7 +1,9 @@
 package xdean.wechat.bg.service.impl;
 
 import static xdean.jex.util.function.Predicates.not;
+import static xdean.wechat.common.spring.IllegalDefineException.assertNonNull;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,14 +11,15 @@ import java.util.Optional;
 import java.util.Random;
 import java.util.WeakHashMap;
 
-import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.MessageSource;
+import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.stereotype.Service;
 
+import xdean.wechat.bg.annotation.StateHandler;
 import xdean.wechat.bg.model.Board;
 import xdean.wechat.bg.model.GameCommand;
 import xdean.wechat.bg.model.Player;
@@ -28,6 +31,7 @@ import xdean.wechat.bg.service.impl.command.StandardGameCommand;
 import xdean.wechat.common.model.WeChatSetting;
 import xdean.wechat.common.model.message.Message;
 import xdean.wechat.common.model.message.TextMessage;
+import xdean.wechat.common.spring.IllegalDefineException;
 
 @Service
 public class GameServiceImpl implements GameService {
@@ -45,12 +49,18 @@ public class GameServiceImpl implements GameService {
   private @Inject List<BoardGameEntrance> games;
 
   private final Random random = new Random();
+  private final Map<String, GameStateHandler> stateHandlers = new HashMap<>();
   private final Map<String, Player> players = new WeakHashMap<>();
   private final Map<Integer, Board> boards = new HashMap<>();
 
-  @PostConstruct
-  public void done() {
-    System.err.println(games);
+  @Inject
+  public void init(List<GameStateHandler> handlers) {
+    handlers.forEach(h -> Arrays.stream(AnnotationUtils.getAnnotation(h.getClass(), StateHandler.class).value())
+        .forEach(s -> {
+          GameStateHandler old = stateHandlers.put(s, h);
+          IllegalDefineException.assertThat(old == null,
+              String.format("Multiple handler defined for %s: %s and %s", s, old, h));
+        }));
   }
 
   @Override
@@ -96,7 +106,7 @@ public class GameServiceImpl implements GameService {
 
   @Override
   public GameStateHandler getStateHandler(Player player) {
-    return context.getBean(player.getState(), GameStateHandler.class);
+    return assertNonNull(stateHandlers.get(player.getState()), "GameStateHandler not found: " + player.getState());
   }
 
   private Player constructPlayer(String id) {

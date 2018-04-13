@@ -42,7 +42,7 @@ public class Player extends Identifiable<String> {
   }
 
   public void setState(Class<? extends GameStateHandler> stateHandlerClass) {
-    setState(stateHandlerClass.getAnnotation(StateHandler.class).value());
+    setState(stateHandlerClass.getAnnotation(StateHandler.class).value()[0]);
   }
 
   @SuppressWarnings("unchecked")

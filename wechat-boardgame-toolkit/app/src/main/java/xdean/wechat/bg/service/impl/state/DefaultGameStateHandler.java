@@ -16,23 +16,23 @@ public interface DefaultGameStateHandler extends GameStateHandler {
   @Override
   default TextWrapper handle(Player player, GameCommand<?> command) {
     return command.<TextWrapper> visit()
-        .onEquals(HELP, h -> s -> s.getMessage(Messages.COMMAND_SHOW_AVALIABLE, avaliableCommandsHints().get(s)))
+        .onEquals(HELP, h -> s -> s.getMessage(Messages.COMMAND_SHOW_AVALIABLE, avaliableCommandsHints(player).get(s)))
         .get()
         .orElseGet(() -> handleActual(player, command)
-            .orElseGet(() -> errorHint()));
+            .orElseGet(() -> errorHint(player)));
   }
 
-  default TextWrapper errorHint() {
-    return s -> s.getMessage(Messages.COMMAND_SHOW_AVALIABLE_ERROR, avaliableCommandsHints().get(s));
+  default TextWrapper errorHint(Player player) {
+    return s -> s.getMessage(Messages.COMMAND_SHOW_AVALIABLE_ERROR, avaliableCommandsHints(player).get(s));
   }
 
   @Override
-  default TextWrapper avaliableCommandsHints() {
+  default TextWrapper avaliableCommandsHints(Player player) {
     return GameStateHandler.mergeHints(Stream.concat(
-        hints().stream(), Stream.of(HELP.hint())).toArray(TextWrapper[]::new));
+        hints(player).stream(), Stream.of(HELP.hint())).toArray(TextWrapper[]::new));
   }
 
   Optional<TextWrapper> handleActual(Player player, GameCommand<?> command);
 
-  List<TextWrapper> hints();
+  List<TextWrapper> hints(Player player);
 }

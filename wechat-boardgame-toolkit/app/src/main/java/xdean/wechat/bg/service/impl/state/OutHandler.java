@@ -26,7 +26,7 @@ public class OutHandler implements DefaultGameStateHandler {
   }
 
   @Override
-  public List<TextWrapper> hints() {
+  public List<TextWrapper> hints(Player player) {
     return Arrays.asList(StandardGameCommand.START_GAME.hint());
   }
 }

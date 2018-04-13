@@ -13,7 +13,7 @@ import xdean.wechat.common.spring.TextWrapper;
 public interface GameStateHandler {
   TextWrapper handle(Player player, GameCommand<?> command);
 
-  TextWrapper avaliableCommandsHints();
+  TextWrapper avaliableCommandsHints(Player player);
 
   static TextWrapper mergeHints(TextWrapper... texts) {
     AtomicInteger count = new AtomicInteger(1);
