@@ -5,6 +5,7 @@ import static xdean.jex.util.function.Predicates.not;
 import java.text.ParseException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
@@ -22,8 +23,9 @@ import xdean.wechat.bg.model.Board;
 import xdean.wechat.bg.model.GameCommand;
 import xdean.wechat.bg.model.Player;
 import xdean.wechat.bg.model.impl.StandardGameCommand;
+import xdean.wechat.bg.resources.Messages;
 import xdean.wechat.bg.service.BoardGameEntrance;
-import xdean.wechat.bg.service.GameCommandParserService;
+import xdean.wechat.bg.service.GameCommandParser;
 import xdean.wechat.bg.service.GameService;
 import xdean.wechat.bg.service.GameStateService;
 import xdean.wechat.common.model.WeChatSetting;
@@ -39,7 +41,7 @@ public class GameServiceImpl implements GameService {
 
   private @Inject MessageSource messageSource;
 
-  private @Inject List<GameCommandParserService> commandParsers;
+  private @Inject List<GameCommandParser> commandParsers;
 
   private @Inject WeChatSetting weChatSetting;
 
@@ -51,6 +53,7 @@ public class GameServiceImpl implements GameService {
 
   @PostConstruct
   public void done() {
+    System.err.println(messageSource.getMessage(Messages.GAME_START_HINT, null, Locale.getDefault()));
     System.err.println(games);
   }
 
@@ -76,7 +79,7 @@ public class GameServiceImpl implements GameService {
     return commandParsers.stream()
         .map(p -> {
           try {
-            return p.parse(player, text, player.getMessageSource());
+            return p.parse(player, text);
           } catch (ParseException e) {
             return null;
           }

@@ -4,40 +4,38 @@ import static xdean.wechat.bg.model.impl.StandardGameCommand.CREATE_GAME;
 import static xdean.wechat.bg.model.impl.StandardGameCommand.ERROR_INPUT;
 import static xdean.wechat.bg.model.impl.StandardGameCommand.HELP;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
+import org.springframework.stereotype.Component;
 
+import xdean.wechat.bg.annotation.CommandParser;
 import xdean.wechat.bg.model.impl.StandardGameCommand.ExitGame;
 import xdean.wechat.bg.model.impl.StandardGameCommand.JoinGame;
 import xdean.wechat.bg.resources.Messages;
-import xdean.wechat.bg.service.GameCommandParserService;
+import xdean.wechat.bg.service.GameCommandParser;
 
-@Configuration
+@Component
 public class GameCommandParserServiceImpl {
-  @Bean
-  public GameCommandParserService joinGame() {
-    return GameCommandParserService.of(Messages.GAME_JOIN, os -> (JoinGame) () -> (Number) os[0]);
+  @CommandParser
+  public GameCommandParser joinGame() {
+    return GameCommandParser.of(Messages.GAME_JOIN, os -> (JoinGame) () -> (Number) os[0]);
   }
 
-  @Bean
-  public GameCommandParserService exitGame() {
-    return GameCommandParserService.of(Messages.GAME_EXIT, os -> (ExitGame) () -> 0);
+  @CommandParser
+  public GameCommandParser exitGame() {
+    return GameCommandParser.of(Messages.GAME_EXIT, os -> (ExitGame) () -> 0);
   }
 
-  @Bean
-  public GameCommandParserService createGame() {
-    return GameCommandParserService.of(Messages.GAME_CREATE, os -> CREATE_GAME);
+  @CommandParser
+  public GameCommandParser createGame() {
+    return GameCommandParser.of(Messages.GAME_CREATE, os -> CREATE_GAME);
   }
 
-  @Bean
-  public GameCommandParserService help() {
-    return GameCommandParserService.of(Messages.COMMAND_HELP, os -> HELP);
+  @CommandParser
+  public GameCommandParser help() {
+    return GameCommandParser.of(Messages.COMMAND_HELP, os -> HELP);
   }
 
-  @Bean
-  @Order
-  public GameCommandParserService errorInput() {
-    return (p, t, s) -> ERROR_INPUT;
+  @CommandParser(order = -1)
+  public GameCommandParser errorInput() {
+    return (p, t) -> ERROR_INPUT;
   }
 }

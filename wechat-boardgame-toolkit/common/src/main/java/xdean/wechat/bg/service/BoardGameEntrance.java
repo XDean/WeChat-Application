@@ -1,5 +1,9 @@
 package xdean.wechat.bg.service;
 
+import xdean.wechat.common.spring.TextWrapper;
+
 public interface BoardGameEntrance {
-  String name();
+  TextWrapper name();
+
+  String entryState();
 }

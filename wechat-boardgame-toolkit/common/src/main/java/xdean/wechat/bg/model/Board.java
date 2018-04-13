@@ -15,6 +15,8 @@ import xdean.wechat.common.spring.Identifiable;
 public class Board extends Identifiable<Integer> {
   public final static Board EMPTY = new Board(-1);
 
+  String game;
+
   int maxPlayer = Integer.MAX_VALUE;
 
   List<Player> players = new ArrayList<>();
@@ -28,13 +30,13 @@ public class Board extends Identifiable<Integer> {
   }
 
   public void join(Player p) {
-//    p.setState(StandardGameState.WAIT);
+    // p.setState(StandardGameState.WAIT);
     p.setBoard(this);
     players.add(p);
   }
 
   public void exit(Player p) {
-//    p.setState(StandardGameState.OUT);
+    // p.setState(StandardGameState.OUT);
     p.setBoard(EMPTY);
     players.remove(p);
   }
