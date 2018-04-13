@@ -31,7 +31,7 @@ public class ToPlayGameHandler implements DefaultGameStateHandler {
                 return TextWrapper.of(Messages.GAME_JOIN_BOARD_FULL);
               } else {
                 b.join(player);
-                player.setState(StandardGameState.WAIT);
+                player.setState(WaitingGameHandler.class);
                 return TextWrapper.of(Messages.GAME_JOIN_SUCCESS);
               }
             })
@@ -39,7 +39,7 @@ public class ToPlayGameHandler implements DefaultGameStateHandler {
         .onEquals(CREATE_GAME, c -> {
           Board b = gameService.createBoard("");// TODO to select game
           b.join(player);
-          player.setState(StandardGameState.WAIT);
+          player.setState(WaitingGameHandler.class);
           return TextWrapper.of(Messages.GAME_CREATE_SUCCESS, b.id);
         })
         .get();

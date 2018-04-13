@@ -10,6 +10,8 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
+import xdean.wechat.bg.annotation.StateHandler;
+import xdean.wechat.bg.service.GameStateHandler;
 import xdean.wechat.common.spring.Identifiable;
 import xdean.wechat.common.spring.LocaledMessageSource;
 import xdean.wechat.common.spring.NonNulls;
@@ -33,6 +35,14 @@ public class Player extends Identifiable<String> {
 
   public Player(String id) {
     super(id);
+  }
+
+  public void setState(String state) {
+    this.state = state;
+  }
+
+  public void setState(Class<? extends GameStateHandler> stateHandlerClass) {
+    setState(stateHandlerClass.getAnnotation(StateHandler.class).value());
   }
 
   @SuppressWarnings("unchecked")

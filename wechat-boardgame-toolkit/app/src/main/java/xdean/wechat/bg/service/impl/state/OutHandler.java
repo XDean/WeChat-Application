@@ -19,7 +19,7 @@ public class OutHandler implements DefaultGameStateHandler {
   public Optional<TextWrapper> handleActual(Player player, GameCommand<?> command) {
     return command.<TextWrapper> visit()
         .onEquals(StandardGameCommand.START_GAME, s -> {
-          player.setState(StandardGameState.TO_PLAY);
+          player.setState(ToPlayGameHandler.class);
           return TextWrapper.of(Messages.GAME_START_HINT);
         })
         .get();
