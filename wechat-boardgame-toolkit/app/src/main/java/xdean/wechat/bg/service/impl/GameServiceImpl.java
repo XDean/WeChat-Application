@@ -5,7 +5,6 @@ import static xdean.jex.util.function.Predicates.not;
 import java.text.ParseException;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
@@ -22,7 +21,6 @@ import org.springframework.stereotype.Service;
 import xdean.wechat.bg.model.Board;
 import xdean.wechat.bg.model.GameCommand;
 import xdean.wechat.bg.model.Player;
-import xdean.wechat.bg.resources.Messages;
 import xdean.wechat.bg.service.BoardGameEntrance;
 import xdean.wechat.bg.service.GameCommandParser;
 import xdean.wechat.bg.service.GameService;
@@ -53,7 +51,6 @@ public class GameServiceImpl implements GameService {
 
   @PostConstruct
   public void done() {
-    System.err.println(messageSource.getMessage(Messages.GAME_START_HINT, null, Locale.getDefault()));
     System.err.println(games);
   }
 
