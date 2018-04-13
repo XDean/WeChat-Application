@@ -23,7 +23,7 @@ import xdean.wechat.bg.annotation.StateHandler;
 import xdean.wechat.bg.model.Board;
 import xdean.wechat.bg.model.GameCommand;
 import xdean.wechat.bg.model.Player;
-import xdean.wechat.bg.service.BoardGameEntrance;
+import xdean.wechat.bg.service.GameEntrance;
 import xdean.wechat.bg.service.GameCommandParser;
 import xdean.wechat.bg.service.GameService;
 import xdean.wechat.bg.service.GameStateHandler;
@@ -46,7 +46,7 @@ public class GameServiceImpl implements GameService {
 
   private @Inject WeChatSetting weChatSetting;
 
-  private @Inject List<BoardGameEntrance> games;
+  private @Inject List<GameEntrance> games;
 
   private final Random random = new Random();
   private final Map<String, GameStateHandler> stateHandlers = new HashMap<>();
@@ -61,6 +61,11 @@ public class GameServiceImpl implements GameService {
           IllegalDefineException.assertThat(old == null,
               String.format("Multiple handler defined for %s: %s and %s", s, old, h));
         }));
+  }
+
+  @Override
+  public List<GameEntrance> gameList() {
+    return games;
   }
 
   @Override

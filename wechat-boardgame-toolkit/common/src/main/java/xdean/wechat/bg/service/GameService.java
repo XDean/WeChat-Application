@@ -1,5 +1,6 @@
 package xdean.wechat.bg.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import xdean.wechat.bg.model.Board;
@@ -11,6 +12,8 @@ public interface GameService {
   Player getPlayer(String wechatId);
 
   Board createBoard(String game);
+
+  List<GameEntrance> gameList();
 
   Optional<Board> getBoard(int id);
 
