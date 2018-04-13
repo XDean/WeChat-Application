@@ -8,6 +8,7 @@ import static xdean.wechat.bg.service.impl.command.StandardGameCommand.START_GAM
 import org.springframework.stereotype.Component;
 
 import xdean.wechat.bg.annotation.CommandParser;
+import xdean.wechat.bg.annotation.ForGame.ForAllGame;
 import xdean.wechat.bg.resources.Messages;
 import xdean.wechat.bg.service.GameCommandParser;
 import xdean.wechat.bg.service.impl.command.StandardGameCommand.ExitGame;
@@ -21,11 +22,6 @@ public class StandardGameCommandParsers {
   }
 
   @CommandParser
-  public GameCommandParser exitGame() {
-    return GameCommandParser.of(Messages.GAME_EXIT, os -> (ExitGame) () -> 0);
-  }
-
-  @CommandParser
   public GameCommandParser createGame() {
     return GameCommandParser.of(Messages.GAME_CREATE, os -> CREATE_GAME);
   }
@@ -35,11 +31,19 @@ public class StandardGameCommandParsers {
     return GameCommandParser.of(Messages.GAME_START, os -> START_GAME);
   }
 
+  @ForAllGame
+  @CommandParser
+  public GameCommandParser exitGame() {
+    return GameCommandParser.of(Messages.GAME_EXIT, os -> (ExitGame) () -> 0);
+  }
+
+  @ForAllGame
   @CommandParser
   public GameCommandParser help() {
     return GameCommandParser.of(Messages.COMMAND_HELP, os -> HELP);
   }
 
+  @ForAllGame
   @CommandParser(order = -1)
   public GameCommandParser errorInput() {
     return (p, t) -> ERROR_INPUT;
