@@ -13,16 +13,18 @@ import xdean.wechat.common.spring.Identifiable;
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Board extends Identifiable<Integer> {
-  public final static Board EMPTY = new Board(-1);
 
-  String game;
+  public static final Board EMPTY = new Board(-1, StandardGame.NULL_GAME);
+
+  final String game;
 
   int maxPlayer = Integer.MAX_VALUE;
 
   List<Player> players = new ArrayList<>();
 
-  public Board(Integer id) {
+  public Board(Integer id, String game) {
     super(id);
+    this.game = game;
   }
 
   public boolean isFull() {
@@ -30,14 +32,13 @@ public class Board extends Identifiable<Integer> {
   }
 
   public void join(Player p) {
-    // p.setState(StandardGameState.WAIT);
     p.setBoard(this);
     players.add(p);
   }
 
   public void exit(Player p) {
-    // p.setState(StandardGameState.OUT);
     p.setBoard(EMPTY);
     players.remove(p);
+    // TODO notify others
   }
 }

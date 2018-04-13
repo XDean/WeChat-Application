@@ -47,5 +47,6 @@ public class Player extends Identifiable<String> {
 
   public void exit() {
     board.exit(this);
+    setState(StandardGameState.OUT);
   }
 }

@@ -10,7 +10,7 @@ import xdean.wechat.common.model.message.Message;
 public interface GameService {
   Player getPlayer(String wechatId);
 
-  Board createBoard();
+  Board createBoard(String game);
 
   Optional<Board> getBoard(int id);
 

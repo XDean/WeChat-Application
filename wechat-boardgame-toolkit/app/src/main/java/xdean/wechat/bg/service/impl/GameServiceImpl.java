@@ -63,8 +63,8 @@ public class GameServiceImpl implements GameService {
   }
 
   @Override
-  public Board createBoard() {
-    Board b = constructBoard();
+  public Board createBoard(String game) {
+    Board b = constructBoard(game);
     boards.put(b.id, b);
     return b;
   }
@@ -109,8 +109,8 @@ public class GameServiceImpl implements GameService {
     return p;
   }
 
-  private Board constructBoard() {
-    Board b = new Board(nextBoardId());
+  private Board constructBoard(String game) {
+    Board b = new Board(nextBoardId(), game);
     return b;
   }
 

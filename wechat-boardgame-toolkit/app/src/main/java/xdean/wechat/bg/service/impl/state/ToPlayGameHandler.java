@@ -18,8 +18,8 @@ import xdean.wechat.bg.service.GameService;
 import xdean.wechat.bg.service.impl.command.StandardGameCommand.JoinGame;
 import xdean.wechat.common.spring.TextWrapper;
 
-@GameStateHandler(StandardGameState.OUT)
-public class OutOfGameHandler implements GameStateServiceImpl {
+@GameStateHandler(StandardGameState.TO_PLAY)
+public class ToPlayGameHandler implements GameStateServiceImpl {
   private @Inject GameService gameService;
 
   @Override
@@ -31,13 +31,15 @@ public class OutOfGameHandler implements GameStateServiceImpl {
                 return TextWrapper.of(Messages.GAME_JOIN_BOARD_FULL);
               } else {
                 b.join(player);
+                player.setState(StandardGameState.WAIT);
                 return TextWrapper.of(Messages.GAME_JOIN_SUCCESS);
               }
             })
             .orElseGet(() -> TextWrapper.of(Messages.GAME_JOIN_BOARD_MISS)))
         .onEquals(CREATE_GAME, c -> {
-          Board b = gameService.createBoard();
+          Board b = gameService.createBoard("");// TODO to select game
           b.join(player);
+          player.setState(StandardGameState.WAIT);
           return TextWrapper.of(Messages.GAME_CREATE_SUCCESS, b.id);
         })
         .get();

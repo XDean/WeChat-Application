@@ -3,6 +3,7 @@ package xdean.wechat.bg.service.impl.command;
 import static xdean.wechat.bg.service.impl.command.StandardGameCommand.CREATE_GAME;
 import static xdean.wechat.bg.service.impl.command.StandardGameCommand.ERROR_INPUT;
 import static xdean.wechat.bg.service.impl.command.StandardGameCommand.HELP;
+import static xdean.wechat.bg.service.impl.command.StandardGameCommand.START_GAME;
 
 import org.springframework.stereotype.Component;
 
@@ -27,6 +28,11 @@ public class StandardGameCommandParsers {
   @CommandParser
   public GameCommandParser createGame() {
     return GameCommandParser.of(Messages.GAME_CREATE, os -> CREATE_GAME);
+  }
+
+  @CommandParser
+  public GameCommandParser startGame() {
+    return GameCommandParser.of(Messages.GAME_START, os -> START_GAME);
   }
 
   @CommandParser
