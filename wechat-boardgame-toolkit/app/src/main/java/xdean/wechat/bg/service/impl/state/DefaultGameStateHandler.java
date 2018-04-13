@@ -9,10 +9,10 @@ import java.util.stream.Stream;
 import xdean.wechat.bg.model.GameCommand;
 import xdean.wechat.bg.model.Player;
 import xdean.wechat.bg.resources.Messages;
-import xdean.wechat.bg.service.GameStateService;
+import xdean.wechat.bg.service.GameStateHandler;
 import xdean.wechat.common.spring.TextWrapper;
 
-public interface GameStateServiceImpl extends GameStateService {
+public interface DefaultGameStateHandler extends GameStateHandler {
   @Override
   default TextWrapper handle(Player player, GameCommand<?> command) {
     return command.<TextWrapper> visit()
@@ -24,7 +24,7 @@ public interface GameStateServiceImpl extends GameStateService {
 
   @Override
   default TextWrapper avaliableCommandsHints() {
-    return GameStateService.mergeHints(Stream.concat(
+    return GameStateHandler.mergeHints(Stream.concat(
         hints().stream(), Stream.of(HELP.hint())).toArray(TextWrapper[]::new));
   }
 

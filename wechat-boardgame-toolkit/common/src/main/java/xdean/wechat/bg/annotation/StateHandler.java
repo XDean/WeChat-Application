@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 @Documented
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface GameStateHandler {
+public @interface StateHandler {
   @AliasFor(annotation = Service.class, attribute = "value")
   String value();
 }

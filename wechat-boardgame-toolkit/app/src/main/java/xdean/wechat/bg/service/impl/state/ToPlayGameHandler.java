@@ -8,7 +8,7 @@ import java.util.Optional;
 
 import javax.inject.Inject;
 
-import xdean.wechat.bg.annotation.GameStateHandler;
+import xdean.wechat.bg.annotation.StateHandler;
 import xdean.wechat.bg.model.Board;
 import xdean.wechat.bg.model.GameCommand;
 import xdean.wechat.bg.model.Player;
@@ -18,8 +18,8 @@ import xdean.wechat.bg.service.GameService;
 import xdean.wechat.bg.service.impl.command.StandardGameCommand.JoinGame;
 import xdean.wechat.common.spring.TextWrapper;
 
-@GameStateHandler(StandardGameState.TO_PLAY)
-public class ToPlayGameHandler implements GameStateServiceImpl {
+@StateHandler(StandardGameState.TO_PLAY)
+public class ToPlayGameHandler implements DefaultGameStateHandler {
   private @Inject GameService gameService;
 
   @Override

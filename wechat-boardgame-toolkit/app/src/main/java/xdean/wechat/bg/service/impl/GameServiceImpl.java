@@ -26,7 +26,7 @@ import xdean.wechat.bg.resources.Messages;
 import xdean.wechat.bg.service.BoardGameEntrance;
 import xdean.wechat.bg.service.GameCommandParser;
 import xdean.wechat.bg.service.GameService;
-import xdean.wechat.bg.service.GameStateService;
+import xdean.wechat.bg.service.GameStateHandler;
 import xdean.wechat.bg.service.impl.command.StandardGameCommand;
 import xdean.wechat.common.model.WeChatSetting;
 import xdean.wechat.common.model.message.Message;
@@ -99,8 +99,8 @@ public class GameServiceImpl implements GameService {
   }
 
   @Override
-  public GameStateService getStateHandler(Player player) {
-    return context.getBean(player.getState(), GameStateService.class);
+  public GameStateHandler getStateHandler(Player player) {
+    return context.getBean(player.getState(), GameStateHandler.class);
   }
 
   private Player constructPlayer(String id) {

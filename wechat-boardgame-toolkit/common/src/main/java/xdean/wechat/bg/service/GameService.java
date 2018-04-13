@@ -18,5 +18,5 @@ public interface GameService {
 
   Message runCommand(Player player, GameCommand<?> command);
 
-  GameStateService getStateHandler(Player player);
+  GameStateHandler getStateHandler(Player player);
 }

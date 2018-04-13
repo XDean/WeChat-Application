@@ -5,13 +5,12 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 import xdean.deannotation.checker.AssertChildren;
-import xdean.wechat.bg.annotation.GameStateHandler;
 import xdean.wechat.bg.model.GameCommand;
 import xdean.wechat.bg.model.Player;
 import xdean.wechat.common.spring.TextWrapper;
 
-@AssertChildren(annotated = GameStateHandler.class)
-public interface GameStateService {
+@AssertChildren(annotated = xdean.wechat.bg.annotation.StateHandler.class)
+public interface GameStateHandler {
   TextWrapper handle(Player player, GameCommand<?> command);
 
   TextWrapper avaliableCommandsHints();

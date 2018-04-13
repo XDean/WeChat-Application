@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import xdean.wechat.bg.annotation.GameStateHandler;
+import xdean.wechat.bg.annotation.StateHandler;
 import xdean.wechat.bg.model.GameCommand;
 import xdean.wechat.bg.model.Player;
 import xdean.wechat.bg.model.StandardGameState;
@@ -13,8 +13,8 @@ import xdean.wechat.bg.resources.Messages;
 import xdean.wechat.common.spring.TextWrapper;
 
 // TODO
-@GameStateHandler(StandardGameState.CREATING)
-public class CreatingGameHandler implements GameStateServiceImpl {
+@StateHandler(StandardGameState.CREATING)
+public class CreatingGameHandler implements DefaultGameStateHandler {
   @Override
   public Optional<TextWrapper> handleActual(Player player, GameCommand<?> command) {
     return command.<TextWrapper> visit()
