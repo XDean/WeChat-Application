@@ -33,7 +33,7 @@ public interface SelectIndex extends GameCommand<Number> {
 
     @Override
     default GameCommand<?> parse(Player player, String text) throws ParseException {
-      int index = Integer.parseInt(text);
+      int index = Integer.parseInt(text) - 1;
       TextWrapper hint = hint();
       return of(hint, index);
     }
