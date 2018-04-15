@@ -20,10 +20,10 @@ public class OrderListCollector implements Collector<Object, StringBuilder, Stri
   @Override
   public BiConsumer<StringBuilder, Object> accumulator() {
     return (s, o) -> {
-      s.append(index);
+      s.append(++index);
       s.append(". ");
       s.append(o.toString());
-      s.append(System.lineSeparator());
+      s.append("\n");
     };
   }
 

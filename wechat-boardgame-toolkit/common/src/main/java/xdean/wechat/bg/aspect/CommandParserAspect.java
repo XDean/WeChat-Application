@@ -37,7 +37,7 @@ public class CommandParserAspect implements Logable {
     List<String> state = Optional.ofNullable(AnnotationUtils.getAnnotation(method, ForState.class))
         .map(f -> Arrays.asList(f.state())).orElse(Collections.singletonList(StandardGameState.ALL_STATE));
     boolean forAllGame = game.contains(StandardGame.ALL_GAME);
-    boolean forAllState = game.contains(StandardGameState.ALL_STATE);
+    boolean forAllState = state.contains(StandardGameState.ALL_STATE);
     GameCommandParser ret = (GameCommandParser) joinPoint.proceed();
     return new DelegateCommandParser() {
       @Override

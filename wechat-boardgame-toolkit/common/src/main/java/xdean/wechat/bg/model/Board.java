@@ -14,7 +14,7 @@ import xdean.wechat.common.spring.Identifiable;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Board extends Identifiable<Integer> {
 
-  public static final Board EMPTY = new Board(-1, StandardGame.NULL_GAME);
+  public static final Board EMPTY = new Board(-1, StandardGame.NO_GAME);
 
   final String game;
 

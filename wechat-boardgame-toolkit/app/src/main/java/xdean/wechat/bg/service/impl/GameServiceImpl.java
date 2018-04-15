@@ -11,6 +11,7 @@ import java.util.Optional;
 import java.util.Random;
 import java.util.WeakHashMap;
 
+import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
@@ -52,6 +53,11 @@ public class GameServiceImpl implements GameService {
   private final Map<String, GameStateHandler> stateHandlers = new HashMap<>();
   private final Map<String, Player> players = new WeakHashMap<>();
   private final Map<Integer, Board> boards = new HashMap<>();
+
+  @PostConstruct
+  public void done() {
+    System.out.println(games.getClass());
+  }
 
   @Inject
   public void init(List<GameStateHandler> handlers) {

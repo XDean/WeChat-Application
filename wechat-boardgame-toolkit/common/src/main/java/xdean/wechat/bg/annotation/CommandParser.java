@@ -12,6 +12,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.core.annotation.AliasFor;
 import org.springframework.core.annotation.Order;
 
+/**
+ * Indicate the method is a {@link CommandParser} provider.
+ *
+ * The default scope is all games and all states
+ *
+ * @author Dean Xu (XDean@github.com)
+ */
 @Bean
 @Qualifier
 @Retention(RUNTIME)

@@ -7,7 +7,7 @@ public interface TextWrapper {
     return s -> s.getMessage(code, args);
   }
 
-  static TextWrapper of(String defaultMsg, String code, Object... args) {
+  static TextWrapper ofDefault(String defaultMsg, String code, Object... args) {
     return s -> s.getMessageDefault(defaultMsg, code, args);
   }
 }
