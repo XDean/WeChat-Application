@@ -6,19 +6,19 @@ import xdean.wechat.bg.service.GameEntrance;
 import xdean.wechat.common.spring.TextWrapper;
 
 @Component
-public class OneNightWolfController implements GameEntrance {
+public class MurderMysteryController implements GameEntrance {
   @Override
   public TextWrapper name() {
-    return s -> "一夜狼人";
+    return s -> "谋杀之谜";
   }
 
   @Override
   public String setupState() {
-    return "onw-setup";
+    return "mm-setup";
   }
 
   @Override
   public String entryState() {
-    return "onw";
+    return "mm";
   }
 }

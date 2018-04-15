@@ -5,5 +5,7 @@ import xdean.wechat.common.spring.TextWrapper;
 public interface GameEntrance {
   TextWrapper name();
 
+  String setupState();
+
   String entryState();
 }
