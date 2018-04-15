@@ -4,6 +4,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
 
 /**
@@ -80,7 +81,15 @@ public class Visitor<T, V, R> {
     return Optional.ofNullable(result);
   }
 
-  public R orElse(R def) {
-    return result == null ? def : result;
+  public R orElse(R other) {
+    return get().orElse(other);
+  }
+
+  public R orEleseGet(Supplier<? extends R> other) {
+    return get().orElseGet(other);
+  }
+
+  public <X extends Throwable> R orElseThrow(Supplier<? extends X> exceptionSupplier) throws X {
+    return get().orElseThrow(exceptionSupplier);
   }
 }
