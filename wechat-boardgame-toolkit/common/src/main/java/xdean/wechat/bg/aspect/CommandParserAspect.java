@@ -18,6 +18,8 @@ import xdean.jex.log.Logable;
 import xdean.wechat.bg.annotation.CommandParser;
 import xdean.wechat.bg.annotation.ForGame;
 import xdean.wechat.bg.annotation.ForState;
+import xdean.wechat.bg.model.GameCommand;
+import xdean.wechat.bg.model.Player;
 import xdean.wechat.bg.model.StandardGame;
 import xdean.wechat.bg.model.StandardGameState;
 import xdean.wechat.bg.service.GameCommandParser;
@@ -31,19 +33,38 @@ public class CommandParserAspect implements Logable {
     debug("Aspect {} with {}", joinPoint.getSignature().getName(), anno.toString());
     Method method = ((MethodSignature) joinPoint.getSignature()).getMethod();
     List<String> game = Optional.ofNullable(AnnotationUtils.getAnnotation(method, ForGame.class))
-        .map(f -> Arrays.asList(f.game())).orElse(Collections.singletonList(StandardGame.NULL_GAME));
+        .map(f -> Arrays.asList(f.game())).orElse(Collections.singletonList(StandardGame.NO_GAME));
     List<String> state = Optional.ofNullable(AnnotationUtils.getAnnotation(method, ForState.class))
         .map(f -> Arrays.asList(f.state())).orElse(Collections.singletonList(StandardGameState.ALL_STATE));
     boolean forAllGame = game.contains(StandardGame.ALL_GAME);
     boolean forAllState = game.contains(StandardGameState.ALL_STATE);
     GameCommandParser ret = (GameCommandParser) joinPoint.proceed();
-    return (p, s) -> {
-      if ((forAllGame || game.contains(p.getBoard().getGame())) &&
-          (forAllState || state.contains(p.getState()))) {
-        return ret.parse(p, s);
-      } else {
-        throw new ParseException("Constriant not match " + anno, 0);
+    return new DelegateCommandParser() {
+      @Override
+      public GameCommand<?> parse(Player p, String s) throws Exception {
+        if ((forAllGame || game.contains(p.getBoard().getGame())) &&
+            (forAllState || state.contains(p.getState()))) {
+          return ret.parse(p, s);
+        } else {
+          throw new ParseException("Constriant not match " + anno, 0);
+        }
+      }
+
+      @Override
+      public List<String> forState() {
+        return state;
+      }
+
+      @Override
+      public List<String> forGame() {
+        return game;
       }
     };
+  }
+
+  public static interface DelegateCommandParser extends GameCommandParser {
+    List<String> forState();
+
+    List<String> forGame();
   }
 }
