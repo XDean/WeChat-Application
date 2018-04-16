@@ -59,15 +59,17 @@ public class ToPlayGameHandler implements DefaultGameStateHandler {
               return TextWrapper.of(Messages.GAME_CREATE_SELECT, getGameList(player));
             })
             .orElse(null))
-        .onEquals(SELECT_GAME, s -> command.<TextWrapper> visit()
+        .onEquals(SELECT_GAME, sg -> command.<TextWrapper> visit()
             .onType(SelectIndex.class, si -> {
               int index = si.index();
               if (index < gameService.gameList().size()) {
                 GameEntrance game = gameService.gameList().get(index);
                 player.setState(game.setupState());
+                return gameService.getStateHandler(player).handle(player, null);
               } else {
+                return s -> s.getMessage(Messages.GAME_CREATE_SELECT_INDEX_NOTFOUND, index + 1) + '\n' +
+                    s.getMessage(Messages.GAME_CREATE_SELECT, getGameList(player));
               }
-              return null;
             })
             .orElse(null))
         .get();
