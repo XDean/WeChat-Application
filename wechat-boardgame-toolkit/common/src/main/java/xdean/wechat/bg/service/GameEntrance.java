@@ -1,5 +1,6 @@
 package xdean.wechat.bg.service;
 
+import xdean.wechat.bg.model.StandardGameCommand;
 import xdean.wechat.common.spring.TextWrapper;
 
 /**
@@ -12,7 +13,9 @@ public interface GameEntrance {
   TextWrapper readableName();
 
   /**
-   * The game's entrance state
+   * The game's logic name and entrance state to create game. The state handler
+   * will receive a {@link StandardGameCommand#CREATE_GAME} when player create
+   * this game.
    */
-  String state();
+  String name();
 }

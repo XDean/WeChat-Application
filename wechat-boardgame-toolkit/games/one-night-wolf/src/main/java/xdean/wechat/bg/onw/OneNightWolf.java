@@ -15,7 +15,7 @@ public class OneNightWolf implements GameEntrance {
   }
 
   @Override
-  public String state() {
+  public String name() {
     return NAME;
   }
 }
