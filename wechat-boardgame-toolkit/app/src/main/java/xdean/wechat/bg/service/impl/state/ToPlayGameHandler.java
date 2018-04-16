@@ -22,6 +22,7 @@ import xdean.wechat.bg.model.Player;
 import xdean.wechat.bg.model.StandardGameCommand.JoinGame;
 import xdean.wechat.bg.model.StandardGameCommand.SelectIndex;
 import xdean.wechat.bg.model.StandardGameCommand.SelectIndex.IndexGameCommandParser;
+import xdean.wechat.bg.service.DefaultGameStateHandler;
 import xdean.wechat.bg.service.GameCommandParser;
 import xdean.wechat.bg.service.GameEntrance;
 import xdean.wechat.bg.service.GameService;

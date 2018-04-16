@@ -1,4 +1,4 @@
-package xdean.wechat.bg.service.impl.state;
+package xdean.wechat.bg.service;
 
 import static xdean.wechat.bg.model.StandardGameCommand.HELP;
 
@@ -6,24 +6,28 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-import xdean.wechat.bg.message.Messages;
+import xdean.wechat.bg.message.CommonMessages;
 import xdean.wechat.bg.model.GameCommand;
 import xdean.wechat.bg.model.Player;
-import xdean.wechat.bg.service.GameStateHandler;
 import xdean.wechat.common.spring.TextWrapper;
 
+/**
+ * Handle help and error input.
+ *
+ * @author Dean Xu (XDean@github.com)
+ */
 public interface DefaultGameStateHandler extends GameStateHandler {
   @Override
   default TextWrapper handle(Player player, GameCommand<?> command) {
     return command.<TextWrapper> visit()
-        .onEquals(HELP, h -> s -> s.getMessage(Messages.COMMAND_SHOW_AVALIABLE, avaliableCommandsHints(player).get(s)))
+        .onEquals(HELP, h -> s -> s.getMessage(CommonMessages.COMMAND_SHOW_AVALIABLE, avaliableCommandsHints(player).get(s)))
         .get()
         .orElseGet(() -> handleActual(player, command)
             .orElseGet(() -> errorHint(player)));
   }
 
   default TextWrapper errorHint(Player player) {
-    return s -> s.getMessage(Messages.COMMAND_SHOW_AVALIABLE_ERROR, avaliableCommandsHints(player).get(s));
+    return s -> s.getMessage(CommonMessages.COMMAND_SHOW_AVALIABLE_ERROR, avaliableCommandsHints(player).get(s));
   }
 
   @Override

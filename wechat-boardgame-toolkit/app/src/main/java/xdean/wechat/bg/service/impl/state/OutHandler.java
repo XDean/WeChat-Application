@@ -10,6 +10,7 @@ import xdean.wechat.bg.model.GameCommand;
 import xdean.wechat.bg.model.Player;
 import xdean.wechat.bg.model.StandardGameCommand;
 import xdean.wechat.bg.model.StandardGameState;
+import xdean.wechat.bg.service.DefaultGameStateHandler;
 import xdean.wechat.common.spring.TextWrapper;
 
 @StateHandler(StandardGameState.OUT)
