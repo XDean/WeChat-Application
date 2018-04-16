@@ -1,13 +1,18 @@
 package xdean.wechat.bg.guess;
 
+import javax.inject.Inject;
+
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
 
+import xdean.auto.message.AutoMessage;
 import xdean.wechat.bg.service.GameEntrance;
 import xdean.wechat.common.spring.TextWrapper;
 
 @Component
+@AutoMessage(path = "/message/messages-guess.properties")
 public class GuessNumber implements GameEntrance {
-  public static final String NAME = "Guess Number";
+  public static final String ENTRANCE = "Guess Number";
 
   @Override
   public TextWrapper readableName() {
@@ -15,7 +20,11 @@ public class GuessNumber implements GameEntrance {
   }
 
   @Override
-  public String state() {
-    return NAME;
+  public String name() {
+    return ENTRANCE;
+  }
+
+  @Inject
+  public void addSource(MessageSource source) {
   }
 }
