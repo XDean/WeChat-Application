@@ -7,7 +7,9 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
+import xdean.wechat.bg.message.CommonMessages;
 import xdean.wechat.common.spring.Identifiable;
+import xdean.wechat.common.spring.TextWrapper;
 
 @Getter
 @Setter
@@ -18,27 +20,26 @@ public class Board extends Identifiable<Integer> {
 
   final String game;
 
-  int maxPlayer = Integer.MAX_VALUE;
-
   List<Player> players = new ArrayList<>();
 
-  public Board(Integer id, String game) {
+  public Board(int id, String game) {
     super(id);
     this.game = game;
   }
 
-  public boolean isFull() {
-    return players.size() >= maxPlayer;
-  }
-
-  public void join(Player p) {
+  public TextWrapper join(Player p) {
     p.setBoard(this);
+    p.setState(StandardGameState.WAIT);
     players.add(p);
+    // TODO notify others
+    return TextWrapper.of(CommonMessages.GAME_JOIN_SUCCESS);
   }
 
-  public void exit(Player p) {
+  public TextWrapper exit(Player p) {
     p.setBoard(EMPTY);
+    p.setState(StandardGameState.OUT);
     players.remove(p);
     // TODO notify others
+    return TextWrapper.of(CommonMessages.GAME_EXIT);
   }
 }

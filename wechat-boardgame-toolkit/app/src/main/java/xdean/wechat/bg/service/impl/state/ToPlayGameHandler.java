@@ -44,15 +44,7 @@ public class ToPlayGameHandler implements DefaultGameStateHandler {
     return Visitor.<String, TextWrapper> create(player.getState())
         .onEquals(TO_PLAY, s -> command.<TextWrapper> visit()
             .onType(JoinGame.class, j -> gameService.getBoard(j.boardId())
-                .map(b -> {
-                  if (b.isFull()) {
-                    return TextWrapper.of(Messages.GAME_JOIN_BOARD_FULL);
-                  } else {
-                    b.join(player);
-                    player.setState(WaitingGameHandler.class);
-                    return TextWrapper.of(Messages.GAME_JOIN_SUCCESS);
-                  }
-                })
+                .map(b -> b.join(player))
                 .orElseGet(() -> TextWrapper.of(Messages.GAME_JOIN_BOARD_MISS)))
             .onEquals(CREATE_GAME, c -> {
               player.setState(SELECT_GAME);
@@ -92,7 +84,7 @@ public class ToPlayGameHandler implements DefaultGameStateHandler {
 
   private String getGameList(Player player) {
     return gameService.gameList().stream()
-        .map(g -> g.name())
+        .map(g -> g.readableName())
         .map(t -> t.get(player.getMessageSource()))
         .collect(new OrderListCollector());
   }
