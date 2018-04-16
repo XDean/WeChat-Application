@@ -1,18 +1,18 @@
 package xdean.wechat.bg.service.impl.command;
 
-import static xdean.wechat.bg.service.impl.command.StandardGameCommand.CREATE_GAME;
-import static xdean.wechat.bg.service.impl.command.StandardGameCommand.ERROR_INPUT;
-import static xdean.wechat.bg.service.impl.command.StandardGameCommand.HELP;
-import static xdean.wechat.bg.service.impl.command.StandardGameCommand.START_GAME;
+import static xdean.wechat.bg.model.StandardGameCommand.CREATE_GAME;
+import static xdean.wechat.bg.model.StandardGameCommand.ERROR_INPUT;
+import static xdean.wechat.bg.model.StandardGameCommand.HELP;
+import static xdean.wechat.bg.model.StandardGameCommand.START_GAME;
 
 import org.springframework.stereotype.Component;
 
 import xdean.wechat.bg.annotation.CommandParser;
 import xdean.wechat.bg.annotation.ForGame.ForAllGame;
-import xdean.wechat.bg.resources.Messages;
+import xdean.wechat.bg.message.Messages;
+import xdean.wechat.bg.model.StandardGameCommand.ExitGame;
+import xdean.wechat.bg.model.StandardGameCommand.JoinGame;
 import xdean.wechat.bg.service.GameCommandParser;
-import xdean.wechat.bg.service.impl.command.StandardGameCommand.ExitGame;
-import xdean.wechat.bg.service.impl.command.StandardGameCommand.JoinGame;
 
 @Component
 public class StandardGameCommandParsers {

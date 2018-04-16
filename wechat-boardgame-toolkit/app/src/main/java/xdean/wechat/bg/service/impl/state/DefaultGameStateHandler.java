@@ -1,14 +1,14 @@
 package xdean.wechat.bg.service.impl.state;
 
-import static xdean.wechat.bg.service.impl.command.StandardGameCommand.HELP;
+import static xdean.wechat.bg.model.StandardGameCommand.HELP;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
+import xdean.wechat.bg.message.Messages;
 import xdean.wechat.bg.model.GameCommand;
 import xdean.wechat.bg.model.Player;
-import xdean.wechat.bg.resources.Messages;
 import xdean.wechat.bg.service.GameStateHandler;
 import xdean.wechat.common.spring.TextWrapper;
 

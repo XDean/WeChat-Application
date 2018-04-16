@@ -5,11 +5,11 @@ import java.util.List;
 import java.util.Optional;
 
 import xdean.wechat.bg.annotation.StateHandler;
+import xdean.wechat.bg.message.Messages;
 import xdean.wechat.bg.model.GameCommand;
 import xdean.wechat.bg.model.Player;
+import xdean.wechat.bg.model.StandardGameCommand;
 import xdean.wechat.bg.model.StandardGameState;
-import xdean.wechat.bg.resources.Messages;
-import xdean.wechat.bg.service.impl.command.StandardGameCommand;
 import xdean.wechat.common.spring.TextWrapper;
 
 @StateHandler(StandardGameState.OUT)

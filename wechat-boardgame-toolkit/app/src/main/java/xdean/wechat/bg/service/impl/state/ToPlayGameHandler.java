@@ -1,8 +1,8 @@
 package xdean.wechat.bg.service.impl.state;
 
 import static xdean.wechat.bg.model.StandardGame.NO_GAME;
+import static xdean.wechat.bg.model.StandardGameCommand.CREATE_GAME;
 import static xdean.wechat.bg.model.StandardGameState.TO_PLAY;
-import static xdean.wechat.bg.service.impl.command.StandardGameCommand.CREATE_GAME;
 
 import java.util.Arrays;
 import java.util.List;
@@ -16,15 +16,15 @@ import xdean.wechat.bg.annotation.CommandParser;
 import xdean.wechat.bg.annotation.ForGame;
 import xdean.wechat.bg.annotation.ForState;
 import xdean.wechat.bg.annotation.StateHandler;
+import xdean.wechat.bg.message.Messages;
 import xdean.wechat.bg.model.GameCommand;
 import xdean.wechat.bg.model.Player;
-import xdean.wechat.bg.resources.Messages;
+import xdean.wechat.bg.model.StandardGameCommand.JoinGame;
+import xdean.wechat.bg.model.StandardGameCommand.SelectIndex;
+import xdean.wechat.bg.model.StandardGameCommand.SelectIndex.IndexGameCommandParser;
 import xdean.wechat.bg.service.GameCommandParser;
 import xdean.wechat.bg.service.GameEntrance;
 import xdean.wechat.bg.service.GameService;
-import xdean.wechat.bg.service.impl.command.SelectIndex;
-import xdean.wechat.bg.service.impl.command.SelectIndex.IndexGameCommandParser;
-import xdean.wechat.bg.service.impl.command.StandardGameCommand.JoinGame;
 import xdean.wechat.common.spring.OrderListCollector;
 import xdean.wechat.common.spring.TextWrapper;
 import xdean.wechat.common.spring.Visitor;
