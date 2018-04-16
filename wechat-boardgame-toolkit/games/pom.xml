@@ -12,6 +12,7 @@
 	<modules>
 		<module>one-night-wolf</module>
 		<module>murder-mystery</module>
+		<module>guess-number</module>
 	</modules>
 	<dependencies>
 		<dependency>
