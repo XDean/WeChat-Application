@@ -4,8 +4,8 @@ import static xdean.wechat.bg.guess.GuessNumber.GUESS_NUMBER;
 import static xdean.wechat.bg.guess.GuessNumberHandler.GUESS;
 import static xdean.wechat.bg.guess.GuessNumberHandler.SETUP;
 import static xdean.wechat.bg.model.StandardGameCommand.CREATE_GAME;
-import static xdean.wechat.common.spring.IllegalDefineException.assertThat;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,6 +16,7 @@ import xdean.wechat.bg.annotation.ForGame;
 import xdean.wechat.bg.annotation.ForState;
 import xdean.wechat.bg.annotation.StateHandler;
 import xdean.wechat.bg.model.GameCommand;
+import xdean.wechat.bg.model.GameCommand.NoDataCommand;
 import xdean.wechat.bg.model.Player;
 import xdean.wechat.bg.model.StandardGameCommand.InputContent;
 import xdean.wechat.bg.service.DefaultGameStateHandler;
@@ -44,29 +45,39 @@ public class GuessNumberHandler implements DefaultGameStateHandler {
               if (digit < 1 || digit > 8) {
                 return TextWrapper.of(Messages.GUESS_SETUP_DIGIT_ERROR);
               } else {
-                player.setState(GUESS);
-                return TextWrapper.of(Messages.GUESS_INPUT);
+                GuessNumberBoard b = GuessNumberBoard.get(player);
+                b.setDigit(digit);
+                return b.start();
               }
             })
             .orElse(null))
         .onEquals(GUESS, e -> command.<TextWrapper> visit()
-            .onType(InputContent.class, i -> {
-
-              return null;
-            })
+            .onType(InputContent.class, i -> GuessNumberBoard.get(player).input((Integer) i.data()))
             .orElse(null))
         .get();
   }
 
   @Override
   public List<TextWrapper> hints(Player player) {
-    return null;
+    return Visitor.<String, List<TextWrapper>> create(player.getState())
+        .onEquals(SETUP, e -> Arrays.asList(TextWrapper.of(Messages.GUESS_SETUP_DIGIT_HINT)))
+        .onEquals(GUESS, e -> Arrays.asList(TextWrapper.of(Messages.GUESS_INPUT_HINT), GIVE_UP.hint()))
+        .orElseThrow(() -> new IllegalStateException());
   }
 
   @CommandParser
   @ForState({ SETUP, GUESS })
   @ForGame(GUESS_NUMBER)
-  public GameCommandParser setupDigit() {
+  public GameCommandParser inputNumber() {
     return InputContent.Parser.create(TextWrapper.of(Messages.GUESS_SETUP_DIGIT_HINT), (p, s) -> Integer.valueOf(s));
   }
+
+  @CommandParser
+  @ForState(GUESS)
+  @ForGame(GUESS_NUMBER)
+  public GameCommandParser giveup() {
+    return GameCommandParser.of(Messages.GUESS_GIVEUP, os -> GIVE_UP);
+  }
+
+  NoDataCommand<?> GIVE_UP = () -> s -> s.getMessage(Messages.GUESS_GIVEUP);
 }
