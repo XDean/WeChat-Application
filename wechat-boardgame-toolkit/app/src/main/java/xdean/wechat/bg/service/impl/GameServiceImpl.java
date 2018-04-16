@@ -11,12 +11,11 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
 import java.util.WeakHashMap;
+import java.util.function.IntFunction;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
-import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.MessageSource;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.stereotype.Service;
@@ -37,10 +36,6 @@ import xdean.wechat.common.spring.IllegalDefineException;
 
 @Service
 public class GameServiceImpl implements GameService {
-
-  private @Inject ApplicationContext context;
-
-  private @Inject AutowireCapableBeanFactory beanFactory;
 
   private @Inject MessageSource messageSource;
 
@@ -82,9 +77,10 @@ public class GameServiceImpl implements GameService {
   }
 
   @Override
-  public Board createBoard(String game) {
-    Board b = constructBoard(game);
-    boards.put(b.id, b);
+  public <T extends Board> T createBoard(IntFunction<T> factory) {
+    int id = nextBoardId();
+    T b = factory.apply(id);
+    boards.put(id, b);
     return b;
   }
 
@@ -126,11 +122,6 @@ public class GameServiceImpl implements GameService {
     Player p = new Player(id);
     p.setSource(messageSource);
     return p;
-  }
-
-  private Board constructBoard(String game) {
-    Board b = new Board(nextBoardId(), game);
-    return b;
   }
 
   private int nextBoardId() {

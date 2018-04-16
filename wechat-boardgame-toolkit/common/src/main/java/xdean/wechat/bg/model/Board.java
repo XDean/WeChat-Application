@@ -20,7 +20,7 @@ public class Board extends Identifiable<Integer> {
 
   final String game;
 
-  List<Player> players = new ArrayList<>();
+  final List<Player> players = new ArrayList<>();
 
   public Board(int id, String game) {
     super(id);

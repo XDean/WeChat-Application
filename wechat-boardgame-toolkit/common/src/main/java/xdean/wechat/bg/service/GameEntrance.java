@@ -2,10 +2,17 @@ package xdean.wechat.bg.service;
 
 import xdean.wechat.common.spring.TextWrapper;
 
+/**
+ * @author Dean Xu (XDean@github.com)
+ */
 public interface GameEntrance {
-  TextWrapper name();
+  /**
+   * The game's human-reading name
+   */
+  TextWrapper readableName();
 
-  String setupState();
-
-  String entryState();
+  /**
+   * The game's entrance state
+   */
+  String state();
 }
