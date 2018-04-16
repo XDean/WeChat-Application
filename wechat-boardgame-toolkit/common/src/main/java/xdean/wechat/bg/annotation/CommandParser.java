@@ -6,8 +6,6 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
-import javax.inject.Qualifier;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.annotation.AliasFor;
 import org.springframework.core.annotation.Order;
@@ -20,7 +18,6 @@ import org.springframework.core.annotation.Order;
  * @author Dean Xu (XDean@github.com)
  */
 @Bean
-@Qualifier
 @Retention(RUNTIME)
 @Target(METHOD)
 @Order(0)

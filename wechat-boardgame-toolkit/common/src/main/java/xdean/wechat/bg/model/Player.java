@@ -21,6 +21,8 @@ import xdean.wechat.common.spring.NonNulls;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Player extends Identifiable<String> {
 
+  public final static Player EMPTY = new Player("empty-player");
+
   String state = StandardGameState.OUT;
 
   Board board = Board.EMPTY;

@@ -14,32 +14,28 @@ import xdean.wechat.common.spring.TextWrapper;
 @Getter
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Board extends Identifiable<Integer> {
+public abstract class Board extends Identifiable<Integer> {
 
-  public static final Board EMPTY = new Board(-1, StandardGame.NO_GAME);
+  public static final Board EMPTY = new Board(-1, StandardGame.NO_GAME) {
+    @Override
+    public TextWrapper join(Player p) {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public TextWrapper exit(Player p) {
+      throw new UnsupportedOperationException();
+    }
+  };
 
   final String game;
-
-  final List<Player> players = new ArrayList<>();
 
   public Board(int id, String game) {
     super(id);
     this.game = game;
   }
 
-  public TextWrapper join(Player p) {
-    p.setBoard(this);
-    p.setState(StandardGameState.WAIT);
-    players.add(p);
-    // TODO notify others
-    return TextWrapper.of(CommonMessages.GAME_JOIN_SUCCESS);
-  }
+  public abstract TextWrapper join(Player p);
 
-  public TextWrapper exit(Player p) {
-    p.setBoard(EMPTY);
-    p.setState(StandardGameState.OUT);
-    players.remove(p);
-    // TODO notify others
-    return TextWrapper.of(CommonMessages.GAME_EXIT);
-  }
+  public abstract TextWrapper exit(Player p);
 }

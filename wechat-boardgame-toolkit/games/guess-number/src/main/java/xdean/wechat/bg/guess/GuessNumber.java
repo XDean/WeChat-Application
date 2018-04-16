@@ -10,9 +10,9 @@ import xdean.wechat.bg.service.GameEntrance;
 import xdean.wechat.common.spring.TextWrapper;
 
 @Component
-@AutoMessage(path = "/message/messages-guess.properties")
+@AutoMessage(path = "/message/messages.properties")
 public class GuessNumber implements GameEntrance {
-  public static final String ENTRANCE = "Guess Number";
+  public static final String GUESS_NUMBER = "Guess Number";
 
   @Override
   public TextWrapper readableName() {
@@ -21,7 +21,7 @@ public class GuessNumber implements GameEntrance {
 
   @Override
   public String name() {
-    return ENTRANCE;
+    return GUESS_NUMBER;
   }
 
   @Inject

@@ -1,6 +1,7 @@
 package xdean.wechat.common.spring;
 
 import java.util.concurrent.Callable;
+import java.util.function.Predicate;
 
 public class IllegalDefineException extends RuntimeException {
 
@@ -30,12 +31,12 @@ public class IllegalDefineException extends RuntimeException {
     }
   }
 
-  public static <T> T assertNot(T t, boolean b, String message) {
-    return assertThat(t, !b, message);
+  public static <T> T assertNot(T t, Predicate<T> test, String message) {
+    return assertThat(t, test.negate(), message);
   }
 
-  public static <T> T assertThat(T t, boolean b, String message) {
-    assertThat(b, message);
+  public static <T> T assertThat(T t, Predicate<T> test, String message) {
+    assertThat(test.test(t), message);
     return t;
   }
 
