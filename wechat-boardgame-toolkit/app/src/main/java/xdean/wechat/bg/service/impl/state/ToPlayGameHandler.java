@@ -64,7 +64,7 @@ public class ToPlayGameHandler implements DefaultGameStateHandler {
               int index = si.index();
               if (index < gameService.gameList().size()) {
                 GameEntrance game = gameService.gameList().get(index);
-                player.setState(game.entryState());
+                player.setState(game.setupState());
               } else {
               }
               return null;

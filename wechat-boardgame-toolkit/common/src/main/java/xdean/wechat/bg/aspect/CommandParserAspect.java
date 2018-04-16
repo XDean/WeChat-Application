@@ -59,6 +59,16 @@ public class CommandParserAspect implements Logable {
       public List<String> forGame() {
         return game;
       }
+
+      @Override
+      public int order() {
+        return anno.order();
+      };
+
+      @Override
+      public String toString() {
+        return "GameCommandParser from: " + joinPoint.getSignature();
+      }
     };
   }
 

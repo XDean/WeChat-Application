@@ -4,6 +4,7 @@ import static xdean.jex.util.function.Predicates.not;
 import static xdean.wechat.common.spring.IllegalDefineException.assertNonNull;
 
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,8 +25,8 @@ import xdean.wechat.bg.annotation.StateHandler;
 import xdean.wechat.bg.model.Board;
 import xdean.wechat.bg.model.GameCommand;
 import xdean.wechat.bg.model.Player;
-import xdean.wechat.bg.service.GameEntrance;
 import xdean.wechat.bg.service.GameCommandParser;
+import xdean.wechat.bg.service.GameEntrance;
 import xdean.wechat.bg.service.GameService;
 import xdean.wechat.bg.service.GameStateHandler;
 import xdean.wechat.bg.service.impl.command.StandardGameCommand;
@@ -56,6 +57,7 @@ public class GameServiceImpl implements GameService {
 
   @PostConstruct
   public void done() {
+    commandParsers.sort(Comparator.comparing(GameCommandParser::order).reversed());
     System.out.println(games.getClass());
   }
 

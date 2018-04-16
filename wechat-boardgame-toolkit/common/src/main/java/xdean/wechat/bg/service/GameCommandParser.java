@@ -12,6 +12,10 @@ import xdean.wechat.common.spring.LocaledMessageSource;
 public interface GameCommandParser {
   GameCommand<?> parse(Player player, String text) throws Exception;
 
+  default int order() {
+    return 0;
+  }
+
   static GameCommandParser of(String code, Function<Object[], GameCommand<?>> parser) {
     return of(code, (p, args) -> parser.apply(args));
   }
