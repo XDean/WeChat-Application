@@ -4,7 +4,6 @@ import static xdean.wechat.common.spring.IllegalDefineException.assertNot;
 
 import java.util.Objects;
 
-import lombok.Setter;
 import xdean.wechat.bg.message.CommonMessages;
 import xdean.wechat.bg.model.Board;
 import xdean.wechat.bg.model.Player;
@@ -13,7 +12,6 @@ import xdean.wechat.common.spring.TextWrapper;
 public class GuessNumberBoard extends Board {
 
   Player player = Player.EMPTY;
-  @Setter
   int digit = 4;
   int attempt = 10;
 
@@ -28,17 +26,27 @@ public class GuessNumberBoard extends Board {
     if (Objects.equals(player, Player.EMPTY)) {
       player = p;
       player.setState(GuessNumberHandler.SETUP);
+      player.setBoard(this);
       return TextWrapper.of(Messages.GUESS_SETUP_DIGIT);
     } else {
       return TextWrapper.of(CommonMessages.GAME_JOIN_FULL);
     }
   }
 
+  public TextWrapper setDigit(int digit) {
+    if (digit < 1 || digit > 8) {
+      return TextWrapper.of(Messages.GUESS_SETUP_DIGIT_ERROR);
+    } else {
+      this.digit = digit;
+      return start();
+    }
+  }
+
   public TextWrapper start() {
     attempt = 10;
     answer = GNumber.random(digit);
-    player.setState(GuessNumberHandler.GUESS);
-    return TextWrapper.of(Messages.GUESS_INPUT);
+    player.setState(GuessNumberHandler.PLAY);
+    return TextWrapper.of(Messages.GUESS_INPUT, digit);
   }
 
   public TextWrapper input(int i) {
@@ -48,13 +56,17 @@ public class GuessNumberBoard extends Board {
     } else if (attempt == 0) {
       return TextWrapper.of(Messages.GUESS_FAIL, answer.value);
     } else if (i < 0 || i > Math.pow(10, digit)) {
-      return TextWrapper.of(Messages.GUESS_INPUT_ERROR);
+      return TextWrapper.of(Messages.GUESS_INPUT_ERROR, digit);
     } else {
-      GNumber input = new GNumber(i);
+      GNumber input = GNumber.of(i, digit);
       int a = answer.compareA(input);
       int b = answer.compareB(input);
       return TextWrapper.of(Messages.GUESS_RESPONSE, a, b, attempt);
     }
+  }
+
+  public TextWrapper giveup() {
+    return TextWrapper.of(Messages.GUESS_FAIL, answer.value);
   }
 
   @Override

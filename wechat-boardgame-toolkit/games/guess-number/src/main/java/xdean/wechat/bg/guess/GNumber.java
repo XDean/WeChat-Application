@@ -7,12 +7,14 @@ import xdean.jex.extra.collection.IntList;
 public class GNumber {
 
   public final int value;
+  public final int digit;
   private final IntList digits;
 
-  public GNumber(int value) {
-    this.value = value;
-    int[] array = intToArray(value);
-    this.digits = IntList.create(array);
+  private GNumber(int value, int digit) {
+    this.digit = digit;
+    this.digits = intToList(value, digit);
+    this.value = digits.stream()
+        .reduce(0, (s, a) -> s * 10 + a);
   }
 
   public int compareA(GNumber other) {
@@ -24,16 +26,11 @@ public class GNumber {
   }
 
   public static GNumber random(int digit) {
-    int i = new Random().nextInt();
-    int mod = 1;
-    while (digit-- > 0) {
-      mod *= 10;
-    }
-    return of(i % mod);
+    return of(Math.abs(new Random().nextInt()), digit);
   }
 
-  public static GNumber of(int i) {
-    return new GNumber(i);
+  public static GNumber of(int value, int digit) {
+    return new GNumber(value, digit);
   }
 
   public static int compareA(GNumber a, GNumber b) {
@@ -59,13 +56,13 @@ public class GNumber {
     return count - compareA(a, b);
   }
 
-  private static int[] intToArray(int i) {
+  private static IntList intToList(int i, int digit) {
     IntList list = IntList.create();
-    while (i > 0) {
+    while (digit-- > 0) {
       int last = i % 10;
       list.add(0, last);
       i = i / 10;
     }
-    return list.toArray();
+    return list;
   }
 }
