@@ -1,17 +1,22 @@
 package xdean.wechat.common.service;
 
-import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.inject.Inject;
 
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
+import io.reactivex.Single;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.disposables.Disposables;
+import io.reactivex.observables.ConnectableObservable;
 import io.reactivex.schedulers.Schedulers;
+import io.reactivex.subjects.Subject;
+import io.reactivex.subjects.UnicastSubject;
 import xdean.jex.log.Logable;
 import xdean.wechat.common.WeChatBeans;
 import xdean.wechat.common.WeChatConstants;
@@ -27,20 +32,44 @@ public class AccessTokenService implements WeChatConstants, Logable {
   @WeChat(WeChatBeans.SETTING)
   private WeChatSetting setting;
 
-  private String token;
+  @Inject
+  @WeChat(WeChatBeans.WHITE_LIST_REST)
+  private RestTemplate rt;
+
+  private String url;
+
+  private Subject<Integer> refreshSubject;
+
+  private Observable<String> tokenObservable;
 
   private boolean autoRefresh = true;
 
-  private Disposable refreshTask = Disposables.disposed();
-
-  private final RestTemplate rt = new RestTemplate(Arrays.asList(new MappingJackson2HttpMessageConverter()));
+  private Disposable disposable;
 
   public AccessTokenService() {
+    refreshSubject = UnicastSubject.create();
+    ConnectableObservable<String> replay = refreshSubject
+        .switchMapSingle(i -> Single.timer(i, TimeUnit.SECONDS))
+        .flatMapMaybe(i -> requestAccessToken())
+        .replay(1);
+    disposable = replay.connect();
+    tokenObservable = replay;
+  }
+
+  @PostConstruct
+  public void init() {
+    url = WECHAT_URL + "/cgi-bin/token?grant_type=client_credential&appid=" + setting.appId + "&secret="
+        + setting.appSecret;
     refresh();
   }
 
-  public String getAccessToken() {
-    return token;
+  @PreDestroy
+  public void destory() {
+    disposable.dispose();
+  }
+
+  public Maybe<String> getAccessToken() {
+    return tokenObservable.firstElement();
   }
 
   public void setAutoRefresh(boolean autoRefresh) {
@@ -48,44 +77,34 @@ public class AccessTokenService implements WeChatConstants, Logable {
   }
 
   public void refresh() {
-    Schedulers.io().scheduleDirect(this::refresh0);
+    refreshSubject.onNext(0);
   }
 
-  private void refresh0() {
-    debug("To refresh Access Token");
-    refreshTask.dispose();
-    AccessTokenResult result = requestToken();
-    if (result.isError()) {
-      warn("Request Access Token failed: " + result.errorToString());
-      switch (result.getErrorCode()) {
-      case -1:
-        info("Retry to get Access Token in 5 seconds.");
-        refreshTask = Schedulers.io().scheduleDirect(this::refresh0, 5, TimeUnit.SECONDS);
-        break;
-      case 40001:
-        warn("AppSecret incorrect.");
-        break;
-      case 40002:
-        warn("Grant_type incorrect.");
-        break;
-      case 40164:
-        warn("IP not in white list");
-        break;
-      default:
-        warn("Unknown error.");
-        break;
+  private Maybe<String> requestAccessToken() {
+    return Maybe.fromCallable(() -> {
+      debug("To refresh Access Token");
+      AccessTokenResult result = rt.getForObject(url, AccessTokenResult.class);
+      if (result.isError()) {
+        switch (result.getErrorCode()) {
+        case -1:
+          info("Retry in 5 seconds. " + result.errorToString());
+          refreshSubject.onNext(5);
+          return null;
+        case 40001:
+          throw new Error("AppSecret incorrect. " + result.errorToString());
+        case 40002:
+          throw new Error("Grant_type incorrect. " + result.errorToString());
+        case 40164:
+          throw new Error("IP not in white list. " + result.errorToString());
+        default:
+          throw new Error("Unknown error. " + result.errorToString());
+        }
+      } else {
+        if (autoRefresh) {
+          refreshSubject.onNext(result.getExpireSecond() - 5);
+        }
+        return result.getToken();
       }
-    } else {
-      this.token = result.getToken();
-      if (autoRefresh) {
-        refreshTask = Schedulers.io().scheduleDirect(this::refresh0, result.getExpireSecond() - 5, TimeUnit.SECONDS);
-      }
-    }
-  }
-
-  private AccessTokenResult requestToken() {
-    String url = WECHAT_URL + "/cgi-bin/token?grant_type=client_credential&appid="
-        + setting.appId + "&secret=" + setting.appSecret;
-    return rt.getForObject(url, AccessTokenResult.class);
+    }).subscribeOn(Schedulers.io());
   }
 }
