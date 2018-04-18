@@ -63,7 +63,7 @@ public class GameServiceImpl implements GameService {
     handlers.forEach(h -> Arrays.stream(AnnotationUtils.getAnnotation(h.getClass(), StateHandler.class).value())
         .forEach(s -> {
           GameStateHandler old = stateHandlers.put(s, h);
-          IllegalDefineException.assertThat(old == null,
+          IllegalDefineException.assertTrue(old == null,
               String.format("Multiple handler defined for %s: %s and %s", s, old, h));
         }));
   }
