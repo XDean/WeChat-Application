@@ -85,7 +85,7 @@ public class GuessNumberBoard extends Board {
     this.player = Player.EMPTY;
     p.setBoard(Board.EMPTY);
     p.setState(StandardGameState.TO_PLAY);
-    return TextWrapper.of(Messages.GUESS_FAIL, answer.value);
+    return TextWrapper.of(Messages.GUESS_OVER_BYE);
   }
 
   public static GuessNumberBoard get(Player p) {
