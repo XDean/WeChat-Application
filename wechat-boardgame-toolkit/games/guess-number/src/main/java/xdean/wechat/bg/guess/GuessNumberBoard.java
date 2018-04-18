@@ -45,7 +45,7 @@ public class GuessNumberBoard extends Board {
     attempt = 10;
     answer = GNumber.random(digit);
     player.setState(GuessNumberHandler.PLAY);
-    System.err.println(answer.digit);
+    System.err.println("Answer is " + answer.value);
     return TextWrapper.of(Messages.GUESS_INPUT, digit);
   }
 
