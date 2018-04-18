@@ -32,6 +32,10 @@ public class GuessNumberHandler implements DefaultGameStateHandler {
   public static final String PLAY = "guess-guess";
   public static final String OVER = "guess-over";
 
+  private static final NoDataCommand<?> GIVE_UP = () -> s -> s.getMessage(Messages.GUESS_GIVEUP);
+  private static final NoDataCommand<?> AGAIN = () -> s -> s.getMessage(Messages.GUESS_OVER_AGAIN);
+  private static final NoDataCommand<?> EXIT = () -> s -> s.getMessage(Messages.GUESS_OVER_EXIT);
+
   @Inject
   GameService gameService;
 
@@ -48,6 +52,10 @@ public class GuessNumberHandler implements DefaultGameStateHandler {
             .onType(InputContent.class, i -> GuessNumberBoard.get(player).input((Integer) i.data()))
             .onEquals(GIVE_UP, g -> GuessNumberBoard.get(player).giveup())
             .orElse(null))
+        .onEquals(OVER, e -> command.<TextWrapper> visit()
+            .onEquals(AGAIN, g -> GuessNumberBoard.get(player).start())
+            .onEquals(EXIT, g -> GuessNumberBoard.get(player).exit())
+            .orElse(null))
         .get();
   }
 
@@ -55,23 +63,37 @@ public class GuessNumberHandler implements DefaultGameStateHandler {
   public List<TextWrapper> hints(Player player) {
     return Visitor.<String, List<TextWrapper>> create(player.getState())
         .onEquals(SETUP, e -> Arrays.asList(TextWrapper.of(Messages.GUESS_SETUP_DIGIT_HINT)))
-        .onEquals(PLAY, e -> Arrays.asList(TextWrapper.of(Messages.GUESS_INPUT_HINT), GIVE_UP.hint()))
+        .onEquals(PLAY, e -> Arrays.asList(TextWrapper.of(Messages.GUESS_INPUT_HINT, GuessNumberBoard.get(player).digit),
+            GIVE_UP.hint()))
+        .onEquals(OVER, e -> Arrays.asList(AGAIN.hint(), EXIT.hint()))
         .orElseThrow(() -> new IllegalStateException());
   }
 
   @CommandParser
   @ForState({ SETUP, PLAY })
   @ForGame(GUESS_NUMBER)
-  public GameCommandParser inputNumber() {
+  public static GameCommandParser inputNumber() {
     return InputContent.Parser.create(TextWrapper.of(Messages.GUESS_SETUP_DIGIT_HINT), (p, s) -> Integer.valueOf(s));
   }
 
   @CommandParser
   @ForState(PLAY)
   @ForGame(GUESS_NUMBER)
-  public GameCommandParser giveup() {
+  public static GameCommandParser giveup() {
     return GameCommandParser.of(Messages.GUESS_GIVEUP, os -> GIVE_UP);
   }
 
-  NoDataCommand<?> GIVE_UP = () -> s -> s.getMessage(Messages.GUESS_GIVEUP);
+  @CommandParser
+  @ForState(OVER)
+  @ForGame(GUESS_NUMBER)
+  public static GameCommandParser again() {
+    return GameCommandParser.of(Messages.GUESS_OVER_AGAIN, os -> AGAIN);
+  }
+
+  @CommandParser
+  @ForState(OVER)
+  @ForGame(GUESS_NUMBER)
+  public static GameCommandParser exit() {
+    return GameCommandParser.of(Messages.GUESS_OVER_EXIT, os -> EXIT);
+  }
 }

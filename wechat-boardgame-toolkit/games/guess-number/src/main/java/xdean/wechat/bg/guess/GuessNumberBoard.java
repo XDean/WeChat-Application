@@ -1,12 +1,11 @@
 package xdean.wechat.bg.guess;
 
-import static xdean.wechat.common.spring.IllegalDefineException.assertNot;
-
 import java.util.Objects;
 
 import xdean.wechat.bg.message.CommonMessages;
 import xdean.wechat.bg.model.Board;
 import xdean.wechat.bg.model.Player;
+import xdean.wechat.bg.model.StandardGameState;
 import xdean.wechat.common.spring.TextWrapper;
 
 public class GuessNumberBoard extends Board {
@@ -46,18 +45,21 @@ public class GuessNumberBoard extends Board {
     attempt = 10;
     answer = GNumber.random(digit);
     player.setState(GuessNumberHandler.PLAY);
+    System.err.println(answer.digit);
     return TextWrapper.of(Messages.GUESS_INPUT, digit);
   }
 
   public TextWrapper input(int i) {
-    attempt--;
     if (i == answer.value) {
+      over();
       return TextWrapper.of(Messages.GUESS_WIN);
     } else if (attempt <= 0) {
+      over();
       return TextWrapper.of(Messages.GUESS_FAIL, answer.value);
     } else if (i < 0 || i > Math.pow(10, digit)) {
       return TextWrapper.of(Messages.GUESS_INPUT_ERROR, digit);
     } else {
+      attempt--;
       GNumber input = GNumber.of(i, digit);
       int a = answer.compareA(input);
       int b = answer.compareB(input);
@@ -65,14 +67,25 @@ public class GuessNumberBoard extends Board {
     }
   }
 
+  private void over() {
+    player.setState(GuessNumberHandler.OVER);
+  }
+
   public TextWrapper giveup() {
+    over();
     return TextWrapper.of(Messages.GUESS_FAIL, answer.value);
+  }
+
+  public TextWrapper exit() {
+    return exit(player);
   }
 
   @Override
   public TextWrapper exit(Player p) {
-    assertNot(Objects.equals(player, Player.EMPTY), "No player in the board: " + id);
-    return null;
+    this.player = Player.EMPTY;
+    p.setBoard(Board.EMPTY);
+    p.setState(StandardGameState.TO_PLAY);
+    return TextWrapper.of(Messages.GUESS_FAIL, answer.value);
   }
 
   public static GuessNumberBoard get(Player p) {

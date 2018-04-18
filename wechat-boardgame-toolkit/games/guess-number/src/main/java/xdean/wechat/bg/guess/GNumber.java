@@ -1,5 +1,7 @@
 package xdean.wechat.bg.guess;
 
+import static xdean.wechat.common.spring.IllegalDefineException.assertThat;
+
 import java.util.Random;
 
 import xdean.jex.extra.collection.IntList;
@@ -34,8 +36,9 @@ public class GNumber {
   }
 
   public static int compareA(GNumber a, GNumber b) {
+    assertThat(a.digit == b.digit, "Only same digit numbers can compare");
     int count = 0;
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < a.digit; i++) {
       if (a.digits.get(i) == b.digits.get(i)) {
         count++;
       }
@@ -44,6 +47,7 @@ public class GNumber {
   }
 
   public static int compareB(GNumber a, GNumber b) {
+    assertThat(a.digit == b.digit, "Only same digit numbers can compare");
     IntList listA = IntList.create(a.digits.toArray());
     IntList listB = IntList.create(b.digits.toArray());
     int count = 0;
