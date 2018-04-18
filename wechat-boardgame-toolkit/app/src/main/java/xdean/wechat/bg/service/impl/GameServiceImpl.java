@@ -56,7 +56,6 @@ public class GameServiceImpl implements GameService {
   public void done() {
     commandParsers.sort(Comparator.comparing(GameCommandParser::order).reversed());
     System.out.println(games.getClass());
-    System.out.println(weChatSetting);
   }
 
   @Inject

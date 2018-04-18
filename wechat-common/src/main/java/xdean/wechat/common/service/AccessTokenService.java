@@ -38,13 +38,11 @@ public class AccessTokenService implements WeChatConstants, Logable {
 
   private String url;
 
-  private Subject<Integer> refreshSubject;
-
-  private Observable<String> tokenObservable;
-
   private boolean autoRefresh = true;
 
-  private Disposable disposable;
+  private final Subject<Integer> refreshSubject;
+  private final Observable<String> tokenObservable;
+  private final Disposable disposable;
 
   public AccessTokenService() {
     refreshSubject = UnicastSubject.create();
@@ -73,10 +71,12 @@ public class AccessTokenService implements WeChatConstants, Logable {
   }
 
   public void setAutoRefresh(boolean autoRefresh) {
+    debug("Set auto refresh access token: " + autoRefresh);
     this.autoRefresh = autoRefresh;
   }
 
   public void refresh() {
+    debug("Manual refresh access token.");
     refreshSubject.onNext(0);
   }
 
@@ -100,7 +100,9 @@ public class AccessTokenService implements WeChatConstants, Logable {
           throw new Error("Unknown error. " + result.errorToString());
         }
       } else {
+        debug("Get access token success.");
         if (autoRefresh) {
+          debug("Auto refresh in " + (result.getExpireSecond() - 5) + "s.");
           refreshSubject.onNext(result.getExpireSecond() - 5);
         }
         return result.getToken();
