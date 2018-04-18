@@ -53,7 +53,7 @@ public class GuessNumberBoard extends Board {
     attempt--;
     if (i == answer.value) {
       return TextWrapper.of(Messages.GUESS_WIN);
-    } else if (attempt == 0) {
+    } else if (attempt <= 0) {
       return TextWrapper.of(Messages.GUESS_FAIL, answer.value);
     } else if (i < 0 || i > Math.pow(10, digit)) {
       return TextWrapper.of(Messages.GUESS_INPUT_ERROR, digit);
