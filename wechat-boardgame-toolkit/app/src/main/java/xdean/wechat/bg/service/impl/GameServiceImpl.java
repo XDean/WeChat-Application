@@ -29,6 +29,8 @@ import xdean.wechat.bg.service.GameCommandParser;
 import xdean.wechat.bg.service.GameEntrance;
 import xdean.wechat.bg.service.GameService;
 import xdean.wechat.bg.service.GameStateHandler;
+import xdean.wechat.common.WeChatBeans;
+import xdean.wechat.common.annotation.WeChat;
 import xdean.wechat.common.model.WeChatSetting;
 import xdean.wechat.common.model.message.Message;
 import xdean.wechat.common.model.message.TextMessage;
@@ -41,7 +43,7 @@ public class GameServiceImpl implements GameService {
 
   private @Inject List<GameCommandParser> commandParsers;
 
-  private @Inject WeChatSetting weChatSetting;
+  private @Inject @WeChat(WeChatBeans.SETTING) WeChatSetting weChatSetting;
 
   private @Inject List<GameEntrance> games;
 
@@ -54,6 +56,7 @@ public class GameServiceImpl implements GameService {
   public void done() {
     commandParsers.sort(Comparator.comparing(GameCommandParser::order).reversed());
     System.out.println(games.getClass());
+    System.out.println(weChatSetting);
   }
 
   @Inject

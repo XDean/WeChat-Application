@@ -1,25 +1,30 @@
 package xdean.wechat.common.service;
 
+import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import io.reactivex.Scheduler;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.disposables.Disposables;
-import xdean.jex.extra.rx2.RxSchedulers;
+import io.reactivex.schedulers.Schedulers;
 import xdean.jex.log.Logable;
+import xdean.wechat.common.WeChatBeans;
 import xdean.wechat.common.WeChatConstants;
+import xdean.wechat.common.annotation.WeChat;
 import xdean.wechat.common.model.AccessTokenResult;
 import xdean.wechat.common.model.WeChatSetting;
 
 @Service
+@WeChat(WeChatBeans.ACCESS_TOKEN_SERVICE)
 public class AccessTokenService implements WeChatConstants, Logable {
 
   @Inject
+  @WeChat(WeChatBeans.SETTING)
   private WeChatSetting setting;
 
   private String token;
@@ -28,7 +33,7 @@ public class AccessTokenService implements WeChatConstants, Logable {
 
   private Disposable refreshTask = Disposables.disposed();
 
-  private static Scheduler SCHEDULER = RxSchedulers.fixedSize(1);
+  private final RestTemplate rt = new RestTemplate(Arrays.asList(new MappingJackson2HttpMessageConverter()));
 
   public AccessTokenService() {
     refresh();
@@ -43,7 +48,7 @@ public class AccessTokenService implements WeChatConstants, Logable {
   }
 
   public void refresh() {
-    SCHEDULER.scheduleDirect(this::refresh0);
+    Schedulers.io().scheduleDirect(this::refresh0);
   }
 
   private void refresh0() {
@@ -55,7 +60,7 @@ public class AccessTokenService implements WeChatConstants, Logable {
       switch (result.getErrorCode()) {
       case -1:
         info("Retry to get Access Token in 5 seconds.");
-        refreshTask = SCHEDULER.scheduleDirect(this::refresh0, 5, TimeUnit.SECONDS);
+        refreshTask = Schedulers.io().scheduleDirect(this::refresh0, 5, TimeUnit.SECONDS);
         break;
       case 40001:
         warn("AppSecret incorrect.");
@@ -73,7 +78,7 @@ public class AccessTokenService implements WeChatConstants, Logable {
     } else {
       this.token = result.getToken();
       if (autoRefresh) {
-        refreshTask = SCHEDULER.scheduleDirect(this::refresh0, result.getExpireSecond() - 5, TimeUnit.SECONDS);
+        refreshTask = Schedulers.io().scheduleDirect(this::refresh0, result.getExpireSecond() - 5, TimeUnit.SECONDS);
       }
     }
   }
@@ -81,7 +86,6 @@ public class AccessTokenService implements WeChatConstants, Logable {
   private AccessTokenResult requestToken() {
     String url = WECHAT_URL + "/cgi-bin/token?grant_type=client_credential&appid="
         + setting.appId + "&secret=" + setting.appSecret;
-    RestTemplate rt = new RestTemplate();
     return rt.getForObject(url, AccessTokenResult.class);
   }
 }
