@@ -37,12 +37,14 @@ public class WeChatConfig implements WebMvcConfigurer {
       @Value("${wechat.token}") String token,
       @Value("${wechat.appId}") String appId,
       @Value("${wechat.wechatId}") String wechatId,
+      @Value("${wechat.wechatAccount}") String wechatAccount,
       @Value("${wechat.appSecret}") String appSecret) {
     return WeChatSetting.builder()
         .token(token)
         .appId(appId)
         .appSecret(appSecret)
         .wechatId(wechatId)
+        .wechatAccount(wechatAccount)
         .build();
   }
 
