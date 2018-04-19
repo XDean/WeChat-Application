@@ -64,9 +64,6 @@ public class NestMessageSource implements MessageSource {
     private Deque<Token> values = new ArrayDeque<>();
 
     public String parse() {
-      if (str.indexOf(prefix) == -1) {
-        return str;
-      }
       values.push(new Token());
       while (offset < str.length()) {
         if (str.startsWith(escaper, offset)) {
@@ -87,9 +84,10 @@ public class NestMessageSource implements MessageSource {
             String s = argToken.sb.toString().trim();
             try {
               int index = Integer.parseInt(s);
+              assertTrue(args.length > index, formatError("Arguement " + index + " not exist"));
               values.push(new Token(args[index]));
-            } catch (Exception e) {
-              assertTrue(false, formatError(e.getMessage()));
+            } catch (NumberFormatException e) {
+              assertTrue(false, formatError("ArgPrefix " + argPrefix + " must only follow a integer"));
             }
           } else {
             append();
@@ -145,10 +143,13 @@ public class NestMessageSource implements MessageSource {
         }
         params.push(pop);
       }
-      if (params.isEmpty()) {
-        values.push(new Token(null));
-      } else if (params.size() == 1) {
-        values.push(params.pop());
+      if (params.size() == 1) {
+        Token pop = params.pop();
+        if (pop.toString().isEmpty()) {
+          values.push(new Token(null));
+        } else {
+          values.push(pop);
+        }
       } else {
         values.push(new Token(toString(params, true)));
       }

@@ -30,6 +30,7 @@ public class NestMessageSourceTest {
     assertEquals("Hello Mr.a and Mrs.a and Mr.b and Mrs.b and their son", lms.getMessage(Messages.HELLO_ABC));
     assertEquals("Come to buy <java>(2nd edition) with $123", lms.getMessage(Messages.JAVA_PROMOTE, "123"));
     assertEquals("Come to buy <java>(2nd edition) with $123.5", lms.getMessage(Messages.JAVA_PROMOTE, "123.5"));
+    assertEquals("Come to buy <java>(2nd edition) with $null", lms.getMessage(Messages.JAVA_PROMOTE, ""));
   }
 
   @Test
@@ -37,5 +38,17 @@ public class NestMessageSourceTest {
     Observable.fromCallable(() -> lms.getMessage(Messages.ERROR_NOT_CLOSE))
         .test()
         .assertError(t -> t.getMessage().contains("Prefix and Suffix not match"));
+    Observable.fromCallable(() -> lms.getMessage(Messages.ERROR_END_ESCAPER))
+        .test()
+        .assertError(t -> t.getMessage().contains("Can't end with escaper"));
+    Observable.fromCallable(() -> lms.getMessage(Messages.ERROR_END_QUOTER))
+        .test()
+        .assertError(t -> t.getMessage().contains("Quote not closed"));
+    Observable.fromCallable(() -> lms.getMessage(Messages.ERROR_ARG_FORMAT))
+        .test()
+        .assertError(t -> t.getMessage().contains("must only follow a integer"));
+    Observable.fromCallable(() -> lms.getMessage(Messages.ERROR_ARG_INDEX))
+        .test()
+        .assertError(t -> t.getMessage().contains("not exist"));
   }
 }
