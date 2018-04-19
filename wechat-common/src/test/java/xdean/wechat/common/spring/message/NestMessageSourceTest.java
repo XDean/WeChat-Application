@@ -10,7 +10,6 @@ import org.springframework.context.support.ResourceBundleMessageSource;
 
 import io.reactivex.Observable;
 import xdean.auto.message.AutoMessage;
-import xdean.wechat.common.spring.LocaledMessageSource;
 
 @AutoMessage(path = "/messages.properties")
 public class NestMessageSourceTest {

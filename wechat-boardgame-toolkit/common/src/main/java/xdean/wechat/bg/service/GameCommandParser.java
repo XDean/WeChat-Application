@@ -6,7 +6,7 @@ import java.util.function.Function;
 
 import xdean.wechat.bg.model.GameCommand;
 import xdean.wechat.bg.model.Player;
-import xdean.wechat.common.spring.LocaledMessageSource;
+import xdean.wechat.common.spring.message.LocaledMessageSource;
 
 @FunctionalInterface
 public interface GameCommandParser {

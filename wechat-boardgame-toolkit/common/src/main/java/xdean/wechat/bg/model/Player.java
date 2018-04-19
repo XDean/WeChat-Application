@@ -13,8 +13,8 @@ import lombok.experimental.FieldDefaults;
 import xdean.wechat.bg.annotation.StateHandler;
 import xdean.wechat.bg.service.GameStateHandler;
 import xdean.wechat.common.spring.Identifiable;
-import xdean.wechat.common.spring.LocaledMessageSource;
 import xdean.wechat.common.spring.NonNulls;
+import xdean.wechat.common.spring.message.LocaledMessageSource;
 
 @Getter
 @Setter

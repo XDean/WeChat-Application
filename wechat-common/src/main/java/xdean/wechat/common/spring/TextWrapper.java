@@ -1,5 +1,7 @@
 package xdean.wechat.common.spring;
 
+import xdean.wechat.common.spring.message.LocaledMessageSource;
+
 public interface TextWrapper {
   String get(LocaledMessageSource source);
 

@@ -1,4 +1,4 @@
-package xdean.wechat.common.spring;
+package xdean.wechat.common.spring.message;
 
 import java.text.MessageFormat;
 import java.util.Locale;
