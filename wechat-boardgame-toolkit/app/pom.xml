@@ -11,6 +11,11 @@
 	<dependencies>
 		<dependency>
 			<groupId>com.github.XDean</groupId>
+			<artifactId>nest-message-spring-boot-starter</artifactId>
+			<version>0.1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.github.XDean</groupId>
 			<artifactId>wechat-boardgame-common</artifactId>
 			<version>1.0</version>
 		</dependency>
@@ -19,16 +24,16 @@
 			<artifactId>wechat-boardgame-one-night-wolf</artifactId>
 			<version>1.0</version>
 		</dependency>
-    <dependency>
-      <groupId>com.github.XDean</groupId>
-      <artifactId>wechat-boardgame-murder-mystery</artifactId>
-      <version>1.0</version>
-    </dependency>
-    <dependency>
-      <groupId>com.github.XDean</groupId>
-      <artifactId>wechat-boardgame-guess-number</artifactId>
-      <version>1.0</version>
-    </dependency>
+		<dependency>
+			<groupId>com.github.XDean</groupId>
+			<artifactId>wechat-boardgame-murder-mystery</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.github.XDean</groupId>
+			<artifactId>wechat-boardgame-guess-number</artifactId>
+			<version>1.0</version>
+		</dependency>
 		<dependency>
 			<groupId>com.github.XDean</groupId>
 			<artifactId>wechat-common</artifactId>
