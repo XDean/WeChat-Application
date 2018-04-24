@@ -11,12 +11,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import com.ulisesbocchio.jasyptspringboot.annotation.EnableEncryptableProperties;
+import com.ulisesbocchio.jasyptspringboot.annotation.EncryptablePropertySource;
 
 import xdean.wechat.common.WeChatBeans;
 import xdean.wechat.common.annotation.WeChat;
@@ -24,8 +23,7 @@ import xdean.wechat.common.model.WeChatSetting;
 import xdean.wechat.common.service.AccessTokenService;
 
 @Configuration
-@EnableEncryptableProperties
-@PropertySource("classpath:wechat.properties")
+@EncryptablePropertySource("classpath:wechat.properties")
 @ComponentScan(basePackageClasses = {
     AccessTokenService.class
 })

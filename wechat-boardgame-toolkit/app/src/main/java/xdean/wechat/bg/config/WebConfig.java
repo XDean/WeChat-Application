@@ -5,7 +5,6 @@ import org.springframework.boot.autoconfigure.web.servlet.DispatcherServletAutoC
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.User;
@@ -13,13 +12,12 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.web.servlet.DispatcherServlet;
 
-import com.ulisesbocchio.jasyptspringboot.annotation.EnableEncryptableProperties;
+import com.ulisesbocchio.jasyptspringboot.annotation.EncryptablePropertySource;
 
 import xdean.wechat.bg.LoggableDispatcherServlet;
 
 @Configuration
-@EnableEncryptableProperties
-@PropertySource("classpath:web.properties")
+@EncryptablePropertySource("classpath:web.properties")
 public class WebConfig extends WebSecurityConfigurerAdapter {
   private @Value("${web.admin.name}") String name;
   private @Value("${web.admin.password}") String password;
