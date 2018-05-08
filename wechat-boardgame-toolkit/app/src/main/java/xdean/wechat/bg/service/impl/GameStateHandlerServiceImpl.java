@@ -10,6 +10,7 @@ import java.util.Map;
 import javax.inject.Inject;
 
 import org.springframework.core.annotation.AnnotationUtils;
+import org.springframework.stereotype.Service;
 
 import xdean.wechat.bg.annotation.StateHandler;
 import xdean.wechat.bg.model.Player;
@@ -17,6 +18,7 @@ import xdean.wechat.bg.service.GameStateHandler;
 import xdean.wechat.bg.service.GameStateHandlerService;
 import xdean.wechat.common.spring.IllegalDefineException;
 
+@Service
 public class GameStateHandlerServiceImpl implements GameStateHandlerService {
   private final Map<String, GameStateHandler> stateHandlers = new HashMap<>();
 

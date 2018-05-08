@@ -18,7 +18,5 @@ public interface GameService {
 
   Optional<Board> getBoard(int boardId);
 
-  GameCommand<?> parseCommand(Player player, String text);
-
   Message runCommand(Player player, GameCommand<?> command);
 }

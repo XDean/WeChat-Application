@@ -1,8 +1,5 @@
 package xdean.wechat.bg.service.impl;
 
-import static xdean.jex.util.function.Predicates.not;
-
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,7 +8,6 @@ import java.util.Random;
 import java.util.WeakHashMap;
 import java.util.function.IntFunction;
 
-import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
 import org.springframework.context.MessageSource;
@@ -20,8 +16,6 @@ import org.springframework.stereotype.Service;
 import xdean.wechat.bg.model.Board;
 import xdean.wechat.bg.model.GameCommand;
 import xdean.wechat.bg.model.Player;
-import xdean.wechat.bg.model.StandardGameCommand;
-import xdean.wechat.bg.service.GameCommandParser;
 import xdean.wechat.bg.service.GameEntrance;
 import xdean.wechat.bg.service.GameService;
 import xdean.wechat.bg.service.GameStateHandlerService;
@@ -38,9 +32,6 @@ public class GameServiceImpl implements GameService {
   MessageSource messageSource;
 
   @Inject
-  List<GameCommandParser> commandParsers;
-
-  @Inject
   @WeChat(WeChatBeans.SETTING)
   WeChatSetting weChatSetting;
 
@@ -53,12 +44,6 @@ public class GameServiceImpl implements GameService {
   private final Random random = new Random();
   private final Map<String, Player> players = new WeakHashMap<>();
   private final Map<Integer, Board> boards = new HashMap<>();
-
-  @PostConstruct
-  public void done() {
-    commandParsers.sort(Comparator.comparing(GameCommandParser::order).reversed());
-    System.out.println(games.getClass());
-  }
 
   @Override
   public List<GameEntrance> gameList() {
@@ -81,21 +66,6 @@ public class GameServiceImpl implements GameService {
   @Override
   public Optional<Board> getBoard(int id) {
     return Optional.ofNullable(boards.get(id));
-  }
-
-  @Override
-  public GameCommand<?> parseCommand(Player player, String text) {
-    return commandParsers.stream()
-        .map(p -> {
-          try {
-            return p.parse(player, text);
-          } catch (Exception e) {
-            return null;
-          }
-        })
-        .filter(not(null))
-        .findAny()
-        .orElse(StandardGameCommand.errorInput());
   }
 
   @Override

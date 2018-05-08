@@ -26,6 +26,7 @@ import xdean.wechat.bg.service.DefaultGameStateHandler;
 import xdean.wechat.bg.service.GameCommandParser;
 import xdean.wechat.bg.service.GameEntrance;
 import xdean.wechat.bg.service.GameService;
+import xdean.wechat.bg.service.GameStateHandlerService;
 import xdean.wechat.common.spring.OrderListCollector;
 import xdean.wechat.common.spring.TextWrapper;
 import xdean.wechat.common.spring.Visitor;
@@ -39,6 +40,7 @@ public class ToPlayGameHandler implements DefaultGameStateHandler {
   public static final String SELECT_GAME = TO_PLAY + "-> select game";
   public static final TextWrapper SLECT_HINT = TextWrapper.of(Messages.GAME_CREATE_SELECT_INDEX);
   private @Inject GameService gameService;
+  private @Inject GameStateHandlerService gameStateHandlerService;
 
   @Override
   public Optional<TextWrapper> handleActual(Player player, GameCommand<?> command) {
@@ -58,7 +60,7 @@ public class ToPlayGameHandler implements DefaultGameStateHandler {
               if (index < gameService.gameList().size()) {
                 GameEntrance game = gameService.gameList().get(index);
                 player.setState(game.name());
-                return gameService.getStateHandler(player).handle(player, CREATE_GAME);
+                return gameStateHandlerService.getStateHandler(player).handle(player, CREATE_GAME);
               } else {
                 return s -> s.getMessage(Messages.GAME_CREATE_SELECT_INDEX_NOTFOUND, index + 1) + '\n' +
                     s.getMessage(Messages.GAME_CREATE_SELECT, getGameList(player));
