@@ -27,7 +27,7 @@ import xdean.wechat.common.spring.TextWrapper;
 import xdean.wechat.common.spring.Visitor;
 
 @StateHandler({ GUESS_NUMBER, SETUP, PLAY, OVER })
-public class GuessNumberHandler implements DefaultGameStateHandler {
+public class GuessNumberHandler extends DefaultGameStateHandler {
   public static final String SETUP = "guess-setup";
   public static final String PLAY = "guess-guess";
   public static final String OVER = "guess-over";

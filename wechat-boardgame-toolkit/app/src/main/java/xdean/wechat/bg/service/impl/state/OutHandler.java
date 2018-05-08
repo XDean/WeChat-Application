@@ -14,7 +14,7 @@ import xdean.wechat.bg.service.DefaultGameStateHandler;
 import xdean.wechat.common.spring.TextWrapper;
 
 @StateHandler(StandardGameState.OUT)
-public class OutHandler implements DefaultGameStateHandler {
+public class OutHandler extends DefaultGameStateHandler {
 
   @Override
   public Optional<TextWrapper> handleActual(Player player, GameCommand<?> command) {

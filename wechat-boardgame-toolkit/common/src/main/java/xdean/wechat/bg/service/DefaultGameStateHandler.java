@@ -12,15 +12,15 @@ import xdean.wechat.common.spring.TextWrapper;
  *
  * @author Dean Xu (XDean@github.com)
  */
-public interface DefaultGameStateHandler extends GameStateHandler {
+public abstract class DefaultGameStateHandler implements GameStateHandler {
   @Override
-  default TextWrapper handle(Player player, GameCommand<?> command) {
+  public TextWrapper handle(Player player, GameCommand<?> command) {
     return handleActual(player, command).orElseGet(() -> errorHint(player));
   }
 
-  default TextWrapper errorHint(Player player) {
+  public TextWrapper errorHint(Player player) {
     return s -> s.getMessage(CommonMessages.COMMAND_SHOW_AVALIABLE_ERROR, avaliableCommandsHints(player).get(s));
   }
 
-  Optional<TextWrapper> handleActual(Player player, GameCommand<?> command);
+  public abstract Optional<TextWrapper> handleActual(Player player, GameCommand<?> command);
 }

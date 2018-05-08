@@ -15,7 +15,7 @@ import xdean.wechat.common.spring.TextWrapper;
 
 // TODO
 @StateHandler(StandardGameState.CREATING)
-public class CreatingGameHandler implements DefaultGameStateHandler {
+public class CreatingGameHandler extends DefaultGameStateHandler {
   @Override
   public Optional<TextWrapper> handleActual(Player player, GameCommand<?> command) {
     return command.<TextWrapper> visit()

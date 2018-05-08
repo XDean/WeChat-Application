@@ -32,7 +32,7 @@ import xdean.wechat.common.spring.TextWrapper;
 import xdean.wechat.common.spring.Visitor;
 
 @StateHandler({ TO_PLAY, ToPlayGameHandler.SELECT_GAME })
-public class ToPlayGameHandler implements DefaultGameStateHandler {
+public class ToPlayGameHandler extends DefaultGameStateHandler {
   public static void main(String[] args) {
     System.out.println(AnnotationUtils.getAnnotation(ToPlayGameHandler.class, StateHandler.class));
   }
