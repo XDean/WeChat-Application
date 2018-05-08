@@ -10,14 +10,19 @@ import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
 
+import xdean.jex.extra.tryto.Try;
 import xdean.wechat.bg.model.GameCommand;
 import xdean.wechat.bg.model.Player;
 import xdean.wechat.bg.model.StandardGameCommand;
 import xdean.wechat.bg.service.GameCommandParseService;
 import xdean.wechat.bg.service.GameCommandParser;
+import xdean.wechat.bg.service.GameStateHandlerService;
 
 @Service
 public class GameCommandParseServiceImpl implements GameCommandParseService {
+
+  @Inject
+  GameStateHandlerService gameStateHandlerService;
 
   @Inject
   List<GameCommandParser> commandParsers;
@@ -28,9 +33,18 @@ public class GameCommandParseServiceImpl implements GameCommandParseService {
   }
 
   @Override
-  public GameCommand<?> parseCommand(Player player, String text) {
+  public GameCommand<?> parseCommand(Player p, String t) {
+    return Try.<GameCommand<?>> to(() -> parse(p, t))
+        .recoverWith(e -> Try.to(() -> parse(p, gameStateHandlerService.getStateHandler(p)
+            .hints(p)
+            .get(Integer.valueOf(t) - 1)
+            .get(p.getMessageSource()))))
+        .getOrElse(() -> StandardGameCommand.errorInput());
+  }
+
+  private GameCommand<?> parse(Player player, String text) {
     return commandParsers.stream()
-        .map(p -> {
+        .<GameCommand<?>> map(p -> {
           try {
             return p.parse(player, text);
           } catch (Exception e) {
@@ -38,7 +52,7 @@ public class GameCommandParseServiceImpl implements GameCommandParseService {
           }
         })
         .filter(not(null))
-        .findAny()
-        .orElse(StandardGameCommand.errorInput());
+        .findFirst()
+        .get();
   }
 }

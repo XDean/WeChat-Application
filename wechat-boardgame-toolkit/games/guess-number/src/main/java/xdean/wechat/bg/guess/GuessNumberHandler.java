@@ -72,28 +72,28 @@ public class GuessNumberHandler implements DefaultGameStateHandler {
   @CommandParser
   @ForState({ SETUP, PLAY })
   @ForGame(GUESS_NUMBER)
-  public static GameCommandParser inputNumber() {
+  public GameCommandParser inputNumber() {
     return InputContent.Parser.create(TextWrapper.of(Messages.GUESS_SETUP_DIGIT_HINT), (p, s) -> Integer.valueOf(s));
   }
 
   @CommandParser
   @ForState(PLAY)
   @ForGame(GUESS_NUMBER)
-  public static GameCommandParser giveup() {
+  public GameCommandParser giveup() {
     return GameCommandParser.of(Messages.GUESS_GIVEUP, os -> GIVE_UP);
   }
 
   @CommandParser
   @ForState(OVER)
   @ForGame(GUESS_NUMBER)
-  public static GameCommandParser again() {
+  public GameCommandParser again() {
     return GameCommandParser.of(Messages.GUESS_OVER_AGAIN, os -> AGAIN);
   }
 
   @CommandParser
   @ForState(OVER)
   @ForGame(GUESS_NUMBER)
-  public static GameCommandParser exit() {
+  public GameCommandParser exit() {
     return GameCommandParser.of(Messages.GUESS_OVER_EXIT, os -> EXIT);
   }
 }

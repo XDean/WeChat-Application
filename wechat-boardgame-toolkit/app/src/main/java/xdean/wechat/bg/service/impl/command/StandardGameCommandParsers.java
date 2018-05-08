@@ -1,7 +1,6 @@
 package xdean.wechat.bg.service.impl.command;
 
 import static xdean.wechat.bg.model.StandardGameCommand.CREATE_GAME;
-import static xdean.wechat.bg.model.StandardGameCommand.ERROR_INPUT;
 import static xdean.wechat.bg.model.StandardGameCommand.HELP;
 import static xdean.wechat.bg.model.StandardGameCommand.START_GAME;
 
@@ -41,11 +40,5 @@ public class StandardGameCommandParsers {
   @CommandParser
   public GameCommandParser help() {
     return GameCommandParser.of(Messages.COMMAND_HELP, os -> HELP);
-  }
-
-  @ForAllGame
-  @CommandParser(order = Integer.MIN_VALUE)
-  public GameCommandParser errorInput() {
-    return (p, t) -> ERROR_INPUT;
   }
 }
