@@ -2,7 +2,6 @@ package xdean.wechat.bg.service;
 
 import static xdean.wechat.bg.model.StandardGameCommand.HELP;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -19,11 +18,7 @@ import xdean.wechat.common.spring.TextWrapper;
 public interface DefaultGameStateHandler extends GameStateHandler {
   @Override
   default TextWrapper handle(Player player, GameCommand<?> command) {
-    return command.<TextWrapper> visit()
-        .onEquals(HELP, h -> s -> s.getMessage(CommonMessages.COMMAND_SHOW_AVALIABLE, avaliableCommandsHints(player).get(s)))
-        .get()
-        .orElseGet(() -> handleActual(player, command)
-            .orElseGet(() -> errorHint(player)));
+    return handleActual(player, command).orElseGet(() -> errorHint(player));
   }
 
   default TextWrapper errorHint(Player player) {
@@ -37,6 +32,4 @@ public interface DefaultGameStateHandler extends GameStateHandler {
   }
 
   Optional<TextWrapper> handleActual(Player player, GameCommand<?> command);
-
-  List<TextWrapper> hints(Player player);
 }

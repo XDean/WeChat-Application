@@ -44,7 +44,7 @@ public class StandardGameCommandParsers {
   }
 
   @ForAllGame
-  @CommandParser(order = -1)
+  @CommandParser(order = Integer.MIN_VALUE)
   public GameCommandParser errorInput() {
     return (p, t) -> ERROR_INPUT;
   }
