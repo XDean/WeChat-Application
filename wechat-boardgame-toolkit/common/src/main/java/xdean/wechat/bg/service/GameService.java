@@ -21,6 +21,4 @@ public interface GameService {
   GameCommand<?> parseCommand(Player player, String text);
 
   Message runCommand(Player player, GameCommand<?> command);
-
-  GameStateHandler getStateHandler(Player player);
 }

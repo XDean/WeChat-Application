@@ -1,9 +1,7 @@
 package xdean.wechat.bg.service.impl;
 
 import static xdean.jex.util.function.Predicates.not;
-import static xdean.wechat.common.spring.IllegalDefineException.assertNonNull;
 
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -17,10 +15,8 @@ import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
 import org.springframework.context.MessageSource;
-import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.stereotype.Service;
 
-import xdean.wechat.bg.annotation.StateHandler;
 import xdean.wechat.bg.model.Board;
 import xdean.wechat.bg.model.GameCommand;
 import xdean.wechat.bg.model.Player;
@@ -28,27 +24,33 @@ import xdean.wechat.bg.model.StandardGameCommand;
 import xdean.wechat.bg.service.GameCommandParser;
 import xdean.wechat.bg.service.GameEntrance;
 import xdean.wechat.bg.service.GameService;
-import xdean.wechat.bg.service.GameStateHandler;
+import xdean.wechat.bg.service.GameStateHandlerService;
 import xdean.wechat.common.WeChatBeans;
 import xdean.wechat.common.annotation.WeChat;
 import xdean.wechat.common.model.WeChatSetting;
 import xdean.wechat.common.model.message.Message;
 import xdean.wechat.common.model.message.TextMessage;
-import xdean.wechat.common.spring.IllegalDefineException;
 
 @Service
 public class GameServiceImpl implements GameService {
 
-  private @Inject MessageSource messageSource;
+  @Inject
+  MessageSource messageSource;
 
-  private @Inject List<GameCommandParser> commandParsers;
+  @Inject
+  List<GameCommandParser> commandParsers;
 
-  private @Inject @WeChat(WeChatBeans.SETTING) WeChatSetting weChatSetting;
+  @Inject
+  @WeChat(WeChatBeans.SETTING)
+  WeChatSetting weChatSetting;
 
-  private @Inject List<GameEntrance> games;
+  @Inject
+  List<GameEntrance> games;
+
+  @Inject
+  GameStateHandlerService gameStateHandlerService;
 
   private final Random random = new Random();
-  private final Map<String, GameStateHandler> stateHandlers = new HashMap<>();
   private final Map<String, Player> players = new WeakHashMap<>();
   private final Map<Integer, Board> boards = new HashMap<>();
 
@@ -56,16 +58,6 @@ public class GameServiceImpl implements GameService {
   public void done() {
     commandParsers.sort(Comparator.comparing(GameCommandParser::order).reversed());
     System.out.println(games.getClass());
-  }
-
-  @Inject
-  public void init(List<GameStateHandler> handlers) {
-    handlers.forEach(h -> Arrays.stream(AnnotationUtils.getAnnotation(h.getClass(), StateHandler.class).value())
-        .forEach(s -> {
-          GameStateHandler old = stateHandlers.put(s, h);
-          IllegalDefineException.assertTrue(old == null,
-              String.format("Multiple handler defined for %s: %s and %s", s, old, h));
-        }));
   }
 
   @Override
@@ -111,13 +103,8 @@ public class GameServiceImpl implements GameService {
     return TextMessage.builder()
         .fromUserName(weChatSetting.wechatId)
         .toUserName(player.id)
-        .content(getStateHandler(player).handle(player, command).get(player.getMessageSource()))
+        .content(gameStateHandlerService.getStateHandler(player).handle(player, command).get(player.getMessageSource()))
         .build();
-  }
-
-  @Override
-  public GameStateHandler getStateHandler(Player player) {
-    return assertNonNull(stateHandlers.get(player.getState()), "GameStateHandler not found: " + player.getState());
   }
 
   private Player constructPlayer(String id) {
