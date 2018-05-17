@@ -13,10 +13,5 @@
 			<groupId>com.github.XDean</groupId>
 			<artifactId>auto-message</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>com.github.XDean</groupId>
-			<artifactId>deannotation-checker</artifactId>
-			<version>0.2.0</version>
-		</dependency>
 	</dependencies>
 </project>
