@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Optional;
 
 import xdean.wechat.bg.annotation.StateHandler;
-import xdean.wechat.bg.message.Messages;
 import xdean.wechat.bg.model.GameCommand;
 import xdean.wechat.bg.model.Player;
 import xdean.wechat.bg.model.StandardGameCommand;
@@ -21,7 +20,7 @@ public class OutHandler extends DefaultGameStateHandler {
     return command.<TextWrapper> visit()
         .onEquals(StandardGameCommand.START_GAME, s -> {
           player.setState(ToPlayGameHandler.class);
-          return TextWrapper.of(Messages.GAME_START_HINT);
+          return NEXT_HINT;
         })
         .get();
   }

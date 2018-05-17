@@ -13,9 +13,21 @@ import xdean.wechat.common.spring.TextWrapper;
  * @author Dean Xu (XDean@github.com)
  */
 public abstract class DefaultGameStateHandler implements GameStateHandler {
+
+  /**
+   * Return this object in {@link #handleActual(Player, GameCommand)} to return
+   * the current state's hint.
+   */
+  public static final TextWrapper NEXT_HINT = s -> null;
+
   @Override
   public TextWrapper handle(Player player, GameCommand<?> command) {
-    return handleActual(player, command).orElseGet(() -> errorHint(player));
+    return handleActual(player, command)
+        .<TextWrapper> map(t -> t == NEXT_HINT ?
+
+            s -> s.getMessage(CommonMessages.COMMAND_SHOW_HINT, avaliableCommandsHints(player).get(s))
+            : t)
+        .orElseGet(() -> errorHint(player));
   }
 
   public TextWrapper errorHint(Player player) {

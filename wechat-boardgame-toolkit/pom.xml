@@ -32,14 +32,4 @@
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
 	</dependencies>
-
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>com.github.XDean</groupId>
-				<artifactId>AnnotationProcessorToolkit</artifactId>
-				<version>0.1.5</version>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
 </project>
