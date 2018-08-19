@@ -17,7 +17,7 @@ public class GuessNumber implements GameEntrance {
 
   @Override
   public TextWrapper readableName() {
-    return s -> "猜数字";
+    return TextWrapper.of(Messages.GUESS_NAME);
   }
 
   @Override
