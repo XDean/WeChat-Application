@@ -26,7 +26,7 @@
 		</dependency>
 		<dependency>
 			<groupId>com.github.XDean</groupId>
-			<artifactId>wechat-boardgame-murder-mystery</artifactId>
+			<artifactId>wechat-boardgame-murder-mystery-app</artifactId>
 			<version>1.0</version>
 		</dependency>
 		<dependency>
